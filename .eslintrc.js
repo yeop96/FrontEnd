@@ -25,5 +25,6 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'prettier/prettier': ['error', { singleQuote: true, semi: false }],
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
 }
