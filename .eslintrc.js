@@ -16,7 +16,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   rules: {
     'no-trailing-spaces': ['error', { skipBlankLines: true }],
     'max-len': ['error', { code: 120 }],
@@ -24,5 +24,6 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
+    'prettier/prettier': ['error', { singleQuote: true, semi: false }],
   },
-};
+}
