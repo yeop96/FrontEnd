@@ -1,4 +1,3 @@
-import { default as HomeScreen } from './Home'
-import { default as MyPageScreen } from './MyPage'
-
-export { HomeScreen, MyPageScreen }
+export { default as HomeScreen } from './Home'
+export { default as MyPageScreen } from './MyPage'
+export { default as ChatModal } from './ChatModal'
