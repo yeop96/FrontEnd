@@ -9,26 +9,55 @@
  */
 
 import * as React from 'react'
-import { View, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { HomeScreen, MyPageScreen } from './src/pages'
 
-function HomeScreen() {
+const Tab = createBottomTabNavigator()
+
+function MyTabs() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: '#81C4A7',
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: function icon({ color, size }) {
+            return (
+              <MaterialCommunityIcons name="home" color={color} size={size} />
+            )
+          },
+        }}
+      />
+      <Tab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          tabBarLabel: 'My Page',
+          tabBarIcon: function icon({ color, size }) {
+            return (
+              <MaterialCommunityIcons
+                name="account"
+                color={color}
+                size={size}
+              />
+            )
+          },
+        }}
+      />
+    </Tab.Navigator>
   )
 }
-
-const Stack = createStackNavigator()
 
 export function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
+      <MyTabs />
     </NavigationContainer>
   )
 }
