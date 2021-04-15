@@ -12,6 +12,7 @@ import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import ActionButton from 'react-native-action-button'
 import { HomeScreen, MyPageScreen } from './src/pages'
 
 const Tab = createBottomTabNavigator()
@@ -58,6 +59,17 @@ export function App() {
   return (
     <NavigationContainer>
       <MyTabs />
+      <ActionButton
+        position="center"
+        renderIcon={() => (
+          <MaterialCommunityIcons name="microphone" color="white" size={30} />
+        )}
+        offsetY={50}
+        buttonColor="#81C4A7"
+        onPress={() => {
+          console.log('hi')
+        }}
+      />
     </NavigationContainer>
   )
 }
