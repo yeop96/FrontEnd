@@ -1,107 +1,82 @@
 import * as React from 'react'
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
-import { withSafeAreaInsets } from 'react-native-safe-area-context'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const state = {
-  datas: [
-    {
-      name: '김성엽',
-      message: '만 24세 남성 B형\n서울시 광진구 자양 3동\n010-1234-1234',
-      img: require('../assets/images/my_heart.png'),
-    },
-  ],
+/** 기초 문진 데이터 */
+const basicQuestionnaire = {
+  name: '김성엽',
+  message: '만 24세 남성 B형\n서울시 광진구 자양 3동\n010-1234-1234',
 }
 
-const state2 = {
-  datas: [
-    {
-      name: '초진 차트',
-      message: '문진 결과\n질병 예측\n',
-    },
-    {
-      name: '진료과 추천',
-      message: '병원 안내\n진료 증상\n신경과',
-    },
-  ],
-}
+/** 초진 내역 데이터 */
+const diagnosis = [
+  {
+    // FIXME: 날짜와 위치 데이터 형식 논의 후 수정
+    date: '2021.04.16',
+    disease: '폐렴',
+    department: '흉부내과(?)',
+    hostpial: '세브란스병원',
+    location: '데이터 형식 미정',
+  },
+  {
+    date: '2021.03.15',
+    disease: '급성 알레르기',
+    department: '내과',
+    hostpial: '홍익병원',
+    location: '데이터 형식 미정',
+  },
+]
 
-const state3 = {
-  datas: [
-    {
-      name: '초진 차트',
-      message: '문진 결과\n질병 예측\n',
-    },
-    {
-      name: '진료과 추천',
-      message: '병원 안내\n진료 증상\n정신과',
-    },
-  ],
-}
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+/** 마이페이지 */
 export default function MyPageScreen() {
   return (
     <ScrollView style={style.container}>
       <Text style={style.textTitle}>진료 기록</Text>
       <Text style={style.textSemiTitle}>기초 문진</Text>
-      {/* 대량의 데이터 배열의 요소개수 만큼 Component를 리턴하는map */}
-      {state.datas.map((element, index) => {
-        return (
-          // onPress에서 요소를 제어 할 수 없어서 화살표 함수를 이용함.
-          <TouchableOpacity
-            key={index}
-            style={style.item}
-            onPress={() => {
-              clickItem(index)
-            }}>
-            <Image source={element.img} style={style.itemImg}></Image>
-            <View style={{ flexDirection: 'column' }}>
-              <Text style={style.itemName}>{element.name}</Text>
-              <Text style={style.itemMsg}>{element.message}</Text>
-            </View>
-          </TouchableOpacity>
-        )
-      })}
+      {
+        <TouchableOpacity
+          style={[style.item, { marginBottom: 26 }]}
+          onPress={() => {
+            clickItem(0)
+          }}>
+          <MaterialCommunityIcons name="file-document-edit" color={'#81C4A7'} size={56} />
+          <View style={{ flexDirection: 'column', marginLeft: 14 }}>
+            <Text style={style.itemName}>{basicQuestionnaire.name}</Text>
+            <Text style={style.itemMessage}>{basicQuestionnaire.message}</Text>
+          </View>
+        </TouchableOpacity>
+      }
       <Text style={style.textSemiTitle}>초진 내역</Text>
-      <Text style={style.textSemiTitle}>2021. 4. 16.</Text>
-      {state2.datas.map((element, index) => {
+      {diagnosis.map((data, index) => {
         return (
           // onPress에서 요소를 제어 할 수 없어서 화살표 함수를 이용함.
-          <TouchableOpacity
-            key={index}
-            style={style.item}
-            onPress={() => {
-              clickItem(index)
-            }}>
-            <View style={{ flexDirection: 'column' }}>
-              <Text style={style.itemName}>{element.name}</Text>
-              <Text style={style.itemMsg}>{element.message}</Text>
-            </View>
-          </TouchableOpacity>
-        )
-      })}
-      <Text style={style.textSemiTitle}>2021. 3. 15.</Text>
-      {state2.datas.map((element, index) => {
-        return (
-          // onPress에서 요소를 제어 할 수 없어서 화살표 함수를 이용함.
-          <TouchableOpacity
-            key={index}
-            style={style.item}
-            onPress={() => {
-              clickItem(index)
-            }}>
-            <View style={{ flexDirection: 'column' }}>
-              <Text style={style.itemName}>{element.name}</Text>
-              <Text style={style.itemMsg}>{element.message}</Text>
-            </View>
-          </TouchableOpacity>
+          <View>
+            <Text style={style.textDateTitle}>{data.date}</Text>
+            <TouchableOpacity
+              key={index}
+              style={style.item}
+              onPress={() => {
+                clickItem(data.disease)
+              }}>
+              <View style={{ flexDirection: 'column' }}>
+                <Text style={[style.itemMessage, { marginBottom: 6 }]}>질병</Text>
+                <Text style={style.itemName}>{data.disease}</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              key={index}
+              style={style.item}
+              onPress={() => {
+                clickItem(data.department)
+              }}>
+              <View style={{ flexDirection: 'column' }}>
+                <Text style={[style.itemMessage, { marginBottom: 6 }]}>병원</Text>
+                <Text style={[style.itemName, { marginBottom: 18 }]}>{data.hostpial}</Text>
+                <Text style={[style.itemMessage, { marginBottom: 6 }]}>진료과</Text>
+                <Text style={style.itemName}>{data.department}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         )
       })}
     </ScrollView>
@@ -109,19 +84,20 @@ export default function MyPageScreen() {
 }
 
 //메소드를 호출하면서 파라미터로 클릭된 아이템의 index번호 받아야함.
-clickItem = index => {
+const clickItem = (data: any) => {
   // 클릭한 아이템의 name값??
-  alert(state.datas[index].name)
+  alert(data)
 }
 
 const style = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
+  container: { flex: 1, padding: 16, backgroundColor: '#efefef' },
   item: {
     flexDirection: 'row',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 18,
     marginBottom: 12,
     backgroundColor: '#FFFFFF',
+    alignItems: 'center',
   },
   itemImg: {
     width: 50,
@@ -129,14 +105,11 @@ const style = StyleSheet.create({
     resizeMode: 'cover',
   },
   itemName: {
-    marginLeft: 28,
     fontSize: 20,
-    fontWeight: 'bold',
   },
-  itemMsg: {
-    marginLeft: 28,
+  itemMessage: {
     fontSize: 16,
-    //fontWeight: 'bold',
+    color: '#555555',
   },
   textTitle: {
     marginTop: 50,
@@ -145,7 +118,12 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
   },
   textSemiTitle: {
-    marginBottom: 10,
-    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 6,
+    fontSize: 24,
+  },
+  textDateTitle: {
+    marginBottom: 6,
+    fontSize: 16,
   },
 })
