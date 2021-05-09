@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { NavigationContainer } from '@react-navigation/native'
 import ActionButton from 'react-native-action-button'
-import { HomeScreen, MyPageScreen } from './../pages/index'
+import { HomeScreen, MyPageScreen } from 'pages'
 
 const Tab = createBottomTabNavigator()
 

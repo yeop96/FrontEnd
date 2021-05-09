@@ -1,8 +1,7 @@
-import { NavigationContainer } from '@react-navigation/native'
 import * as React from 'react'
 import { TextInput, Button } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { AuthContext } from './../context'
+import { AuthContext } from 'context'
 
 /** 로그인 페이지 */
 export default function ChatModal({ navigation }) {

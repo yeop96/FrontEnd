@@ -13,9 +13,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { MainModalStackNavigator, AuthStackNavigator } from './src/navigators'
-import { SplashScreen } from './src/pages'
-import { AuthContext } from './src/context'
+import { MainModalStackNavigator, AuthStackNavigator } from 'navigators'
+import { SplashScreen } from 'pages'
+import { AuthContext } from 'context'
 
 const Stack = createStackNavigator()
 
