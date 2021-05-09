@@ -1,37 +1,26 @@
 import * as React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import {
-  CardStyleInterpolators,
-  TransitionPresets,
-} from '@react-navigation/stack'
+import { CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
 import { MainTabNavigator } from './index'
-import { ChatModal } from './../pages/index'
+import { ChatModal } from '../pages/index'
 
-const RootStack = createStackNavigator()
+const MainModalStack = createStackNavigator()
 
-export default function RootStackNavigator() {
+export default function MainModalStackNavigator() {
   return (
-    <RootStack.Navigator
+    <MainModalStack.Navigator
       /** ios 모달 스타일로 설정 */
       screenOptions={({ route, navigation }) => ({
         headerShown: false,
         gestureEnabled: true,
         cardOverlayEnabled: true,
         headerStatusBarHeight:
-          navigation
-            .dangerouslyGetState()
-            .routes.findIndex(r => r.key === route.key) > 0
-            ? 0
-            : undefined,
+          navigation.dangerouslyGetState().routes.findIndex((r) => r.key === route.key) > 0 ? 0 : undefined,
         ...TransitionPresets.ModalPresentationIOS,
       })}
       mode="modal">
-      <RootStack.Screen
-        name="MainTab"
-        component={MainTabNavigator}
-        options={{ headerShown: false }}
-      />
-      <RootStack.Screen
+      <MainModalStack.Screen name="MainTab" component={MainTabNavigator} options={{ headerShown: false }} />
+      <MainModalStack.Screen
         name="ChatModal"
         component={ChatModal}
         options={{
@@ -39,6 +28,6 @@ export default function RootStackNavigator() {
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         }}
       />
-    </RootStack.Navigator>
+    </MainModalStack.Navigator>
   )
 }
