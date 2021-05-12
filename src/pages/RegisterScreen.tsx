@@ -11,11 +11,7 @@ import {
   ScrollView,
 } from 'react-native'
 import DatePicker from 'react-native-datepicker'
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button'
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
 
 export default function RegisterScreen() {
   const [date, setDate] = useState(new Date())
@@ -94,8 +90,8 @@ export default function RegisterScreen() {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
     })
-      .then(response => response.json())
-      .then(responseJson => {
+      .then((response) => response.json())
+      .then((responseJson) => {
         console.log(responseJson)
         // If server response message same as Data Matched
         if (responseJson.status === 'success') {
@@ -105,7 +101,7 @@ export default function RegisterScreen() {
           setErrortext(responseJson.msg)
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error)
       })
   }
@@ -160,7 +156,7 @@ export default function RegisterScreen() {
             {/* 이름 */}
             <TextInput
               style={styles.inputStyle}
-              onChangeText={UserName => setUserName(UserName)}
+              onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#f000"
               placeholder="이름"
               placeholderTextColor="#FFFFFF"
@@ -176,7 +172,7 @@ export default function RegisterScreen() {
             {/* 아이디 */}
             <TextInput
               style={styles.inputStyle}
-              onChangeText={UserEmail => setUserEmail(UserEmail)}
+              onChangeText={(UserEmail) => setUserEmail(UserEmail)}
               underlineColorAndroid="#f000"
               placeholder="이메일"
               placeholderTextColor="#FFFFFF"
@@ -193,7 +189,7 @@ export default function RegisterScreen() {
             {/* 비밀번호 */}
             <TextInput
               style={styles.inputStyle}
-              onChangeText={UserPassword => setUserPassword(UserPassword)}
+              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
               underlineColorAndroid="#f000"
               placeholder="비밀번호"
               placeholderTextColor="#FFFFFF"
@@ -210,7 +206,7 @@ export default function RegisterScreen() {
             {/* 주소 */}
             <TextInput
               style={styles.inputStyle}
-              onChangeText={UserAddress => setUserAddress(UserAddress)}
+              onChangeText={(UserAddress) => setUserAddress(UserAddress)}
               underlineColorAndroid="#f000"
               placeholder="주소"
               placeholderTextColor="#FFFFFF"
@@ -237,7 +233,7 @@ export default function RegisterScreen() {
               // onPress={value => {
               //   clickItem(value)
               // }}
-              onPress={value => setValue(value)}
+              onPress={(value) => setValue(value)}
             />
           </View>
 
@@ -288,13 +284,8 @@ export default function RegisterScreen() {
             </View>
           </View>
 
-          {errortext != '' ? (
-            <Text style={styles.errorTextStyle}>{errortext}</Text>
-          ) : null}
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={handleSubmitButton}>
+          {errortext != '' ? <Text style={styles.errorTextStyle}>{errortext}</Text> : null}
+          <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5} onPress={handleSubmitButton}>
             <Text style={styles.buttonTextStyle}>회원가입</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>

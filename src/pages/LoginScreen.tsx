@@ -10,20 +10,25 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native'
+import { AuthContext } from 'context'
 
 import AsyncStorage from '@react-native-community/async-storage'
 
 //import Loader from './Components/Loader'
 
-const LoginScreen = ({ navigation }) => {
+export default function LoginScreen({ navigation }) {
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   //const [loading, setLoading] = useState(false)
   const [errortext, setErrortext] = useState('')
 
+  const { signIn } = React.useContext(AuthContext)
+
   const passwordInputRef = createRef()
 
   const handleSubmitPress = () => {
+    signIn({ userEmail, userPassword })
+
     setErrortext('')
     if (!userEmail) {
       alert('이메일을 입력해주세요!')
@@ -52,8 +57,8 @@ const LoginScreen = ({ navigation }) => {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
     })
-      .then(response => response.json())
-      .then(responseJson => {
+      .then((response) => response.json())
+      .then((responseJson) => {
         //Hide Loader
         //setLoading(false)
         console.log(responseJson)
@@ -67,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
           console.log('아이디나 비밀번호 확인해주세요')
         }
       })
-      .catch(error => {
+      .catch((error) => {
         //Hide Loader
         //setLoading(false)
         console.error(error)
@@ -107,7 +112,7 @@ const LoginScreen = ({ navigation }) => {
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
-                  onChangeText={UserEmail => setUserEmail(UserEmail)}
+                  onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                   placeholder="이메일" //dummy@abc.com
                   placeholderTextColor="#8b9cb5"
                   autoCapitalize="none"
@@ -123,7 +128,7 @@ const LoginScreen = ({ navigation }) => {
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
-                  onChangeText={UserPassword => setUserPassword(UserPassword)}
+                  onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                   placeholder="비밀번호" //1234
                   placeholderTextColor="#8b9cb5"
                   keyboardType="default"
@@ -135,18 +140,11 @@ const LoginScreen = ({ navigation }) => {
                   returnKeyType="next"
                 />
               </View>
-              {errortext != '' ? (
-                <Text style={styles.errorTextStyle}>{errortext}</Text>
-              ) : null}
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                activeOpacity={0.5}
-                onPress={handleSubmitPress}>
+              {errortext != '' ? <Text style={styles.errorTextStyle}>{errortext}</Text> : null}
+              <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5} onPress={handleSubmitPress}>
                 <Text style={styles.buttonTextStyle}>로그인</Text>
               </TouchableOpacity>
-              <Text
-                style={styles.registerTextStyle}
-                onPress={() => navigation.navigate('RegisterScreen')}>
+              <Text style={styles.registerTextStyle} onPress={() => navigation.navigate('RegisterScreen')}>
                 회원가입
               </Text>
             </View>
@@ -156,7 +154,6 @@ const LoginScreen = ({ navigation }) => {
     </View>
   )
 }
-export default LoginScreen
 
 const styles = StyleSheet.create({
   mainBody: {

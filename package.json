@@ -11,8 +11,8 @@
     "format": "prettier --check .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.4",
     "@davidgovea/react-native-wheel-datepicker": "1.0.2",
+    "@react-native-async-storage/async-storage": "^1.15.4",
     "@react-native-community/async-storage": "1.12.1",
     "@react-native-community/datetimepicker": "3.4.7",
     "@react-native-community/masked-view": "0.1.11",
@@ -30,9 +30,9 @@
     "react-native-google-maps": "^1.0.0",
     "react-native-just-checkbox": "1.0.12",
     "react-native-maps": "0.28.0",
+    "react-native-reanimated": "2.1.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.1.0",
-    "react-native-reanimated": "2.1.0",
     "react-native-simple-radio-button": "2.7.4",
     "react-native-vector-icons": "^8.1.0"
   },
@@ -47,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "babel-jest": "^26.6.3",
-    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-module-resolver": "4.1.0",
     "eslint": "^7.24.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
