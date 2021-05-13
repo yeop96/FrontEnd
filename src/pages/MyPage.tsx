@@ -39,9 +39,9 @@ export default function MyPageScreen() {
           onPress={() => {
             clickItem(0)
           }}>
-          <MaterialCommunityIcons name="file-document-edit" color={'#81C4A7'} size={56} />
+          <MaterialCommunityIcons name="file-document-edit" color={'#81C4A7'} size={48} />
           <View style={{ flexDirection: 'column', marginLeft: 14 }}>
-            <Text style={style.itemName}>{basicQuestionnaire.name}</Text>
+            <Text style={[style.itemName, { marginBottom: 6 }]}>{basicQuestionnaire.name}</Text>
             <Text style={style.itemMessage}>{basicQuestionnaire.message}</Text>
           </View>
         </TouchableOpacity>
@@ -105,10 +105,10 @@ const style = StyleSheet.create({
     resizeMode: 'cover',
   },
   itemName: {
-    fontSize: 20,
+    fontSize: 18,
   },
   itemMessage: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#555555',
   },
   textTitle: {
