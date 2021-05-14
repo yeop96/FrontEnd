@@ -1,0 +1,6 @@
+export { default as Smoking } from './Smoking'
+export { default as Drink } from './Drink'
+export { default as Exercise } from './Exercise'
+export { default as FamilyHistory } from './FamilyHistory'
+export { default as MdeicalHistory } from './MedicalHistory'
+export { default as BasicQuestionnaire } from './BasicQuestionnaire'
