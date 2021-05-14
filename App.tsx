@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { MainModalStackNavigator, AuthStackNavigator } from 'navigators'
 import { SplashScreen } from 'pages'
-import { AuthContext } from 'context'
+import { AuthContext, HealthInfoProvider } from 'context'
 
 const Stack = createStackNavigator()
 
@@ -114,32 +114,34 @@ export function App() {
 
   return (
     <AuthContext.Provider value={authContext}>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}>
-            {state.isLoading ? (
-              // 토큰 확인 중 스플레시 화면
-              <Stack.Screen name="Splash" component={SplashScreen} />
-            ) : state.userToken == null ? (
-              // 토큰 없으면 로그인 플로우
-              <Stack.Screen
-                name="AuthStackNavigator"
-                component={AuthStackNavigator}
-                options={{
-                  title: 'Sign in',
-                  animationTypeForReplace: state.isSignout ? 'pop' : 'push',
-                }}
-              />
-            ) : (
-              // 토큰 있음, main 화면으로
-              <Stack.Screen name="MainModalStackNavigator" component={MainModalStackNavigator} />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
+      <HealthInfoProvider>
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}>
+              {state.isLoading ? (
+                // 토큰 확인 중 스플레시 화면
+                <Stack.Screen name="Splash" component={SplashScreen} />
+              ) : state.userToken == null ? (
+                // 토큰 없으면 로그인 플로우
+                <Stack.Screen
+                  name="AuthStackNavigator"
+                  component={AuthStackNavigator}
+                  options={{
+                    title: 'Sign in',
+                    animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+                  }}
+                />
+              ) : (
+                // 토큰 있음, main 화면으로
+                <Stack.Screen name="MainModalStackNavigator" component={MainModalStackNavigator} />
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </HealthInfoProvider>
     </AuthContext.Provider>
   )
 }
