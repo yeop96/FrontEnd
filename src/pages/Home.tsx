@@ -1,9 +1,10 @@
-import * as React from 'react'
-import { View, StyleSheet, Platform, Text } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { Marker } from 'react-native-maps'
 import Geolocation from 'react-native-geolocation-service'
-import { useState, useEffect } from 'react'
+import { useHealthInfoState } from 'context'
+import { BasicQuestionnaire } from 'pages'
 
 interface ILocation {
   latitude: number
@@ -11,26 +12,37 @@ interface ILocation {
 }
 
 export default function HomeScreen() {
-  const [location, setLocation] = useState<ILocation | undefined>(undefined)
+  // 초기값 광진구청으로 설정
+  const [location, setLocation] = useState<ILocation | undefined>({ latitude: 37.538712, longitude: 127.082366 })
+  const HealthInfo = useHealthInfoState()
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         const { latitude, longitude } = position.coords
         setLocation({
           latitude,
           longitude,
         })
       },
-      error => {
+      (error) => {
         console.log(error.code, error.message)
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     )
   }, [])
 
+  useEffect(() => {
+    if (HealthInfo.basicQuestionnaire === null) {
+      setModalVisible(true)
+    }
+    // 마운트할때만 체크하기 위해 디펜던시 비움
+  }, [])
+
   return (
     <View style={styles.container}>
+      <BasicQuestionnaire modalVisible={modalVisible} setModalVisible={() => setModalVisible(false)} />
       {location && (
         <MapView
           provider={PROVIDER_GOOGLE}

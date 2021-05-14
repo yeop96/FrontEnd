@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { format } from 'date-fns'
 
 /** 기초 문진 데이터 */
 const basicQuestionnaire = {
@@ -12,14 +13,14 @@ const basicQuestionnaire = {
 const diagnosis = [
   {
     // FIXME: 날짜와 위치 데이터 형식 논의 후 수정
-    date: '2021.04.16',
+    date: new Date(),
     disease: '폐렴',
-    department: '흉부내과(?)',
+    department: '흉부내과',
     hostpial: '세브란스병원',
     location: '데이터 형식 미정',
   },
   {
-    date: '2021.03.15',
+    date: new Date('2020-12-17T03:24:00'),
     disease: '급성 알레르기',
     department: '내과',
     hostpial: '홍익병원',
@@ -39,9 +40,9 @@ export default function MyPageScreen() {
           onPress={() => {
             clickItem(0)
           }}>
-          <MaterialCommunityIcons name="file-document-edit" color={'#81C4A7'} size={56} />
+          <MaterialCommunityIcons name="file-document-edit" color={'#81C4A7'} size={48} />
           <View style={{ flexDirection: 'column', marginLeft: 14 }}>
-            <Text style={style.itemName}>{basicQuestionnaire.name}</Text>
+            <Text style={[style.itemName, { marginBottom: 6 }]}>{basicQuestionnaire.name}</Text>
             <Text style={style.itemMessage}>{basicQuestionnaire.message}</Text>
           </View>
         </TouchableOpacity>
@@ -51,7 +52,7 @@ export default function MyPageScreen() {
         return (
           // onPress에서 요소를 제어 할 수 없어서 화살표 함수를 이용함.
           <View>
-            <Text style={style.textDateTitle}>{data.date}</Text>
+            <Text style={style.textDateTitle}>{format(data.date, 'yyyy-MM-dd')}</Text>
             <TouchableOpacity
               key={index}
               style={style.item}
@@ -105,10 +106,10 @@ const style = StyleSheet.create({
     resizeMode: 'cover',
   },
   itemName: {
-    fontSize: 20,
+    fontSize: 18,
   },
   itemMessage: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#555555',
   },
   textTitle: {
