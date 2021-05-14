@@ -21,9 +21,7 @@ export default function MainTabNavigator({ navigation }) {
           options={{
             tabBarLabel: 'Home',
             tabBarIcon: function icon({ color, size }) {
-              return (
-                <MaterialCommunityIcons name="home" color={color} size={size} />
-              )
+              return <MaterialCommunityIcons name="home" color={color} size={size} />
             },
           }}
         />
@@ -33,13 +31,7 @@ export default function MainTabNavigator({ navigation }) {
           options={{
             tabBarLabel: 'My Page',
             tabBarIcon: function icon({ color, size }) {
-              return (
-                <MaterialCommunityIcons
-                  name="account"
-                  color={color}
-                  size={size}
-                />
-              )
+              return <MaterialCommunityIcons name="account" color={color} size={size} />
             },
           }}
         />
@@ -48,9 +40,7 @@ export default function MainTabNavigator({ navigation }) {
       {/** FIXME: 동적 size로 수정 */}
       <ActionButton
         position="center"
-        renderIcon={() => (
-          <MaterialCommunityIcons name="microphone" color="white" size={30} />
-        )}
+        renderIcon={() => <MaterialCommunityIcons name="microphone" color="white" size={30} />}
         offsetY={50}
         buttonColor="#81C4A7"
         onPress={() => navigation.navigate('ChatModal')}

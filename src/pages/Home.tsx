@@ -1,9 +1,8 @@
-import * as React from 'react'
-import { View, StyleSheet, Platform, Text } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { Marker } from 'react-native-maps'
 import Geolocation from 'react-native-geolocation-service'
-import { useState, useEffect } from 'react'
 
 interface ILocation {
   latitude: number
@@ -15,14 +14,14 @@ export default function HomeScreen() {
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         const { latitude, longitude } = position.coords
         setLocation({
           latitude,
           longitude,
         })
       },
-      error => {
+      (error) => {
         console.log(error.code, error.message)
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
