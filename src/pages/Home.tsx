@@ -10,7 +10,8 @@ interface ILocation {
 }
 
 export default function HomeScreen() {
-  const [location, setLocation] = useState<ILocation | undefined>(undefined)
+  // 초기값 광진구청으로 설정
+  const [location, setLocation] = useState<ILocation | undefined>({ latitude: 37.538712, longitude: 127.082366 })
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
