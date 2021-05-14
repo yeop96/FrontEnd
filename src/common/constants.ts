@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native'
+
 /** 계정 정보 */
 export interface Auth {
   /** 로딩 여부 */
@@ -7,3 +9,7 @@ export interface Auth {
   /** 사용자 토큰 */
   userToken: string | null
 }
+
+export const screenWidth = Dimensions.get('window').width
+export const screenHeight = Dimensions.get('window').height
+export const mainColor = '#69BFA0'
