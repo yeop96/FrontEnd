@@ -1,5 +1,4 @@
 import * as React from 'react'
 
-const AuthContext = React.createContext()
-
-export default AuthContext
+// App.tsx에서 앱 구동 시 초기화
+export const AuthContext = React.createContext()
