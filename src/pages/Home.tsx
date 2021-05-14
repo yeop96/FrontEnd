@@ -3,6 +3,8 @@ import { View, StyleSheet } from 'react-native'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { Marker } from 'react-native-maps'
 import Geolocation from 'react-native-geolocation-service'
+import { useHealthInfoState } from 'context'
+import { BasicQuestionnaire } from 'pages'
 
 interface ILocation {
   latitude: number
@@ -12,6 +14,8 @@ interface ILocation {
 export default function HomeScreen() {
   // 초기값 광진구청으로 설정
   const [location, setLocation] = useState<ILocation | undefined>({ latitude: 37.538712, longitude: 127.082366 })
+  const HealthInfo = useHealthInfoState()
+  const [modalVisible, setModalVisible] = useState<boolean>(false)
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -29,8 +33,16 @@ export default function HomeScreen() {
     )
   }, [])
 
+  useEffect(() => {
+    if (HealthInfo.basicQuestionnaire === null) {
+      setModalVisible(true)
+    }
+    // 마운트할때만 체크하기 위해 디펜던시 비움
+  }, [])
+
   return (
     <View style={styles.container}>
+      <BasicQuestionnaire modalVisible={modalVisible} setModalVisible={() => setModalVisible(false)} />
       {location && (
         <MapView
           provider={PROVIDER_GOOGLE}
