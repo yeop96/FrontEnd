@@ -80,6 +80,8 @@ export default function MyPageScreen() {
           </View>
         )
       })}
+      {/** 바텀텝에 가려지지 않도록 띄워주는 빈 공간 */}
+      <View style={{ height: 60 }} />
     </ScrollView>
   )
 }
@@ -91,7 +93,7 @@ const clickItem = (data: any) => {
 }
 
 const style = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: '#efefef' },
+  container: { flex: 1, padding: 16, backgroundColor: '#f3f3f3' },
   item: {
     flexDirection: 'row',
     borderRadius: 10,
