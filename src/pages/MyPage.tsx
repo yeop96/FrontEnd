@@ -2,6 +2,7 @@ import * as React from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { format } from 'date-fns'
+import { HealthInfo, useHealthInfoState } from 'context'
 
 /** 기초 문진 데이터 */
 const basicQuestionnaire = {
@@ -9,27 +10,10 @@ const basicQuestionnaire = {
   message: '만 24세 남성 B형\n서울시 광진구 자양 3동\n010-1234-1234',
 }
 
-/** 초진 내역 데이터 */
-const diagnosis = [
-  {
-    // FIXME: 날짜와 위치 데이터 형식 논의 후 수정
-    date: new Date(),
-    disease: '폐렴',
-    department: '흉부내과',
-    hostpial: '세브란스병원',
-    location: '데이터 형식 미정',
-  },
-  {
-    date: new Date('2020-12-17T03:24:00'),
-    disease: '급성 알레르기',
-    department: '내과',
-    hostpial: '홍익병원',
-    location: '데이터 형식 미정',
-  },
-]
-
 /** 마이페이지 */
 export default function MyPageScreen() {
+  const healthInfo: HealthInfo = useHealthInfoState()
+
   return (
     <ScrollView style={style.container}>
       <Text style={style.textTitle}>진료 기록</Text>
@@ -48,33 +32,25 @@ export default function MyPageScreen() {
         </TouchableOpacity>
       }
       <Text style={style.textSemiTitle}>초진 내역</Text>
-      {diagnosis.map((data, index) => {
+      {healthInfo.diagnosis.map((data, index) => {
         return (
           // onPress에서 요소를 제어 할 수 없어서 화살표 함수를 이용함.
           <View>
             <Text style={style.textDateTitle}>{format(data.date, 'yyyy-MM-dd')}</Text>
             <TouchableOpacity
               key={index}
-              style={style.item}
+              style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}
               onPress={() => {
                 clickItem(data.disease)
               }}>
               <View style={{ flexDirection: 'column' }}>
                 <Text style={[style.itemMessage, { marginBottom: 6 }]}>질병</Text>
-                <Text style={style.itemName}>{data.disease}</Text>
+                <Text style={style.itemName}>{data.disease[0]}</Text>
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              key={index}
-              style={style.item}
-              onPress={() => {
-                clickItem(data.department)
-              }}>
+              <View style={{ width: 300, marginVertical: 14, height: 2, backgroundColor: '#f2f2f2f2' }} />
               <View style={{ flexDirection: 'column' }}>
-                <Text style={[style.itemMessage, { marginBottom: 6 }]}>병원</Text>
-                <Text style={[style.itemName, { marginBottom: 18 }]}>{data.hostpial}</Text>
                 <Text style={[style.itemMessage, { marginBottom: 6 }]}>진료과</Text>
-                <Text style={style.itemName}>{data.department}</Text>
+                <Text style={style.itemName}>{data.department[0].name}</Text>
               </View>
             </TouchableOpacity>
           </View>
