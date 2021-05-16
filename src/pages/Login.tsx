@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react'
+import React, { useState } from 'react'
 import {
   StyleSheet,
   TextInput,
@@ -9,37 +9,30 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native'
 import { AuthContext } from 'context'
-
-import AsyncStorage from '@react-native-community/async-storage'
-
-//import Loader from './Components/Loader'
 
 export default function LoginScreen({ navigation }) {
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
-  //const [loading, setLoading] = useState(false)
   const [errortext, setErrortext] = useState('')
-
   const { signIn } = React.useContext(AuthContext)
 
-  const passwordInputRef = createRef()
-
   const handleSubmitPress = () => {
-    signIn({ userEmail, userPassword })
-
     setErrortext('')
     if (!userEmail) {
-      alert('이메일을 입력해주세요!')
+      Alert.alert('아이디를 입력해주세요!')
       return
     }
     if (!userPassword) {
-      alert('비밀번호를 입력해주세요!')
+      Alert.alert('비밀번호를 입력해주세요!')
       return
     }
-    // setLoading(true)
-    let dataToSend = { id: userEmail, password: userPassword }
+
+    // dataToSend에 아이디 비밀번호를 저장
+    let dataToSend = { id: userEmail, pwd: userPassword }
+    // formBody에 url 형식에 맞춰 id=test1& 이런식으로 붙여서 보내줌
     let formBody = []
     for (let key in dataToSend) {
       let encodedKey = encodeURIComponent(key)
@@ -48,41 +41,29 @@ export default function LoginScreen({ navigation }) {
     }
     formBody = formBody.join('&')
 
-    //fetch('http://localhost:3000/api/user/login', {
-    fetch('http://52.78.126.183:3000/caps/login', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
+    //서버 연결 부분 fetch에 url + formBody를 해서 보내준다. get방식
+    //예시 http://52.78.126.183:3000/caps/login?id=test1&pwd=1234
+    fetch('http://52.78.126.183:3000/caps/login?' + formBody, {})
       .then((response) => response.json())
       .then((responseJson) => {
-        //Hide Loader
-        //setLoading(false)
         console.log(responseJson)
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          AsyncStorage.setItem('user_id', responseJson.data.email)
-          console.log(responseJson.data.email)
-          alert('로그인성공!')
+        // 로그인 성공시 true 반환
+        if (responseJson.performance === true) {
+          console.log(responseJson.id)
+          signIn({ userEmail, userPassword }) //로그인 성공시 넘어가기
         } else {
           setErrortext(responseJson.msg)
           console.log('아이디나 비밀번호 확인해주세요')
+          Alert.alert('오류', '아이디나 비밀번호 확인해주세요')
         }
       })
       .catch((error) => {
-        //Hide Loader
-        //setLoading(false)
         console.error(error)
-        alert('??')
       })
   }
 
   return (
     <View style={styles.mainBody}>
-      {/* <Loader loading={loading} /> */}
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
@@ -112,15 +93,13 @@ export default function LoginScreen({ navigation }) {
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
+                  //아이디 userEmail 변수에 setUserEmail 함수 유스스테이트를 통해 저장
                   onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-                  placeholder="이메일" //dummy@abc.com
+                  placeholder="아이디"
                   placeholderTextColor="#8b9cb5"
                   autoCapitalize="none"
                   keyboardType="email-address"
                   returnKeyType="next"
-                  // onSubmitEditing={() =>
-                  //   passwordInputRef.current && passwordInputRef.current.focus()
-                  // }
                   underlineColorAndroid="#f000"
                   blurOnSubmit={false}
                 />
@@ -128,11 +107,11 @@ export default function LoginScreen({ navigation }) {
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
+                  //비밀번호 userPassword 변수에 setUserPassword 함수 유스스테이트를 통해 저장
                   onChangeText={(UserPassword) => setUserPassword(UserPassword)}
-                  placeholder="비밀번호" //1234
+                  placeholder="비밀번호"
                   placeholderTextColor="#8b9cb5"
                   keyboardType="default"
-                  //ref={passwordInputRef}
                   onSubmitEditing={Keyboard.dismiss}
                   blurOnSubmit={false}
                   secureTextEntry={true}

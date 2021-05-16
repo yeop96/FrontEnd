@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react'
+import React, { useState } from 'react'
 import {
   StyleSheet,
   TextInput,
@@ -9,71 +9,77 @@ import {
   Keyboard,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native'
 import DatePicker from 'react-native-datepicker'
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
+import RadioForm from 'react-native-simple-radio-button'
 
-export default function RegisterScreen() {
-  const [date, setDate] = useState(new Date())
-  const [mode, setMode] = useState('date')
-  const radio_props = [
-    { label: '남성', value: 0 },
-    { label: '여성', value: 1 },
-  ]
-  const [value, setValue] = useState(0)
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date
-    //setShow(Platform.OS === 'ios')
-    setDate(currentDate)
-    console.log(currentDate)
-  }
-
+export default function RegisterScreen(props) {
   const [userName, setUserName] = useState('')
   const [userEmail, setUserEmail] = useState('')
   const [userPassword, setUserPassword] = useState('')
   const [userAddress, setUserAddress] = useState('')
   const [userGender, setUserGender] = useState('')
-  const [userAge, setUserAge] = useState('')
+  const [userBirth, setUserBirth] = useState('')
   const [errortext, setErrortext] = useState('')
   const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false)
+  const [date, setDate] = useState(new Date())
 
-  const emailInputRef = createRef()
-  const ageInputRef = createRef()
-  const addressInputRef = createRef()
-  const passwordInputRef = createRef()
+  //라디오 버튼 설정
+  const radio_props = [
+    { label: '남성', value: 0 },
+    { label: '여성', value: 1 },
+  ]
+
+  const clickRadio = (value) => {
+    if (value === 0) {
+      setUserGender('남성')
+    }
+    if (value === 1) {
+      setUserGender('여성')
+    }
+  }
+
+  const onChange = (selectedDate) => {
+    const currentDate = selectedDate || date
+    setDate(currentDate)
+    setUserBirth(currentDate)
+    console.log(currentDate)
+  }
 
   const handleSubmitButton = () => {
     setErrortext('')
     if (!userName) {
-      alert('이름을 입력 해주세요!')
+      Alert.alert('이름을 입력 해주세요!')
       return
     }
     if (!userEmail) {
-      alert('이메일 입력 해주세요!')
-      return
-    }
-    if (!userAddress) {
-      alert('주소를 입력 해주세요!')
+      Alert.alert('아이디 입력 해주세요!')
       return
     }
     if (!userPassword) {
-      alert('비밀번호 입력 해주세요!')
+      Alert.alert('비밀번호 입력 해주세요!')
       return
     }
-    // if (!userAge) {
-    //   alert('나이를 입력 해주세요!')
-    //   return
-    // }
+    if (!userAddress) {
+      Alert.alert('주소를 입력 해주세요!')
+      return
+    }
+    if (!userGender) {
+      Alert.alert('성별을 선택 해주세요!')
+      return
+    }
 
+    //회원가입 시 필요한 데이터들
     const dataToSend = {
       name: userName,
-      email: userEmail,
-      age: userAge,
+      id: userEmail,
+      pwd: userPassword,
       address: userAddress,
-      password: userPassword,
       gender: userGender,
+      birth: userBirth,
     }
+    // formBody 서버 url 뒤에 붙일 회원정보들 string형식으로 붙이기
     let formBody = []
     for (const key in dataToSend) {
       const encodedKey = encodeURIComponent(key)
@@ -82,22 +88,16 @@ export default function RegisterScreen() {
     }
     formBody = formBody.join('&')
 
-    fetch('http://52.78.126.183:3000/caps/sign-up', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
+    //서버 연결 url + fromBody를 통해 get방식이니 그냥 string으로 보내준다.
+    fetch('http://52.78.126.183:3000/caps/sign-up?' + formBody, {})
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson)
-        // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
+        // 회원가입 성공시 true 반환
+        if (responseJson.performance === true) {
           setIsRegistraionSuccess(true)
-          console.log('Registration Successful. Please Login to proceed')
         } else {
+          Alert.alert('확인', responseJson.message)
           setErrortext(responseJson.msg)
         }
       })
@@ -125,8 +125,7 @@ export default function RegisterScreen() {
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}
-          //onPress={() => props.navigation.navigate('LoginScreen')}
-        >
+          onPress={() => props.navigation.navigate('LoginScreen')}>
           <Text style={styles.buttonTextStyle}>로그인</Text>
         </TouchableOpacity>
       </View>
@@ -162,9 +161,6 @@ export default function RegisterScreen() {
               placeholderTextColor="#FFFFFF"
               autoCapitalize="sentences"
               returnKeyType="next"
-              //   onSubmitEditing={() =>
-              //     emailInputRef.current && emailInputRef.current.focus()
-              //   }
               blurOnSubmit={false}
             />
           </View>
@@ -174,14 +170,10 @@ export default function RegisterScreen() {
               style={styles.inputStyle}
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
               underlineColorAndroid="#f000"
-              placeholder="이메일"
+              placeholder="아이디"
               placeholderTextColor="#FFFFFF"
               keyboardType="email-address"
-              // ref={emailInputRef}
               returnKeyType="next"
-              //   onSubmitEditing={() =>
-              //     passwordInputRef.current && passwordInputRef.current.focus()
-              //   }
               blurOnSubmit={false}
             />
           </View>
@@ -193,12 +185,8 @@ export default function RegisterScreen() {
               underlineColorAndroid="#f000"
               placeholder="비밀번호"
               placeholderTextColor="#FFFFFF"
-              //ref={passwordInputRef}
               returnKeyType="next"
               secureTextEntry={true}
-              //   onSubmitEditing={() =>
-              //     ageInputRef.current && ageInputRef.current.focus()
-              //   }
               blurOnSubmit={false}
             />
           </View>
@@ -211,7 +199,6 @@ export default function RegisterScreen() {
               placeholder="주소"
               placeholderTextColor="#FFFFFF"
               autoCapitalize="sentences"
-              //ref={addressInputRef}
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
@@ -230,10 +217,9 @@ export default function RegisterScreen() {
               buttonWrapStyle={{ marginLeft: 20 }}
               buttonOuterSize={25}
               labelStyle={{ fontSize: 16, color: 'white', marginRight: 20 }}
-              // onPress={value => {
-              //   clickItem(value)
-              // }}
-              onPress={(value) => setValue(value)}
+              onPress={(value) => {
+                clickRadio(value)
+              }}
             />
           </View>
 
@@ -278,7 +264,6 @@ export default function RegisterScreen() {
                   },
                   fontSize: 30,
                 }}
-                //onDateChange={userAge => setUserAge(userAge)}
                 onDateChange={onChange}
               />
             </View>
