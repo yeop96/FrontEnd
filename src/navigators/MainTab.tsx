@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { NavigationContainer } from '@react-navigation/native'
 import ActionButton from 'react-native-action-button'
 import { HomeScreen, MyPageScreen } from 'pages'
+import { MyPageStackNavigator } from 'navigators'
 
 const Tab = createBottomTabNavigator()
 
@@ -26,8 +27,8 @@ export default function MainTabNavigator({ navigation }) {
           }}
         />
         <Tab.Screen
-          name="MyPage"
-          component={MyPageScreen}
+          name="MyPageStackNavigator"
+          component={MyPageStackNavigator}
           options={{
             tabBarLabel: 'My Page',
             tabBarIcon: function icon({ color, size }) {
