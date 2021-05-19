@@ -11,8 +11,15 @@ const basicQuestionnaire = {
 }
 
 /** 마이페이지 */
-export default function MyPageScreen() {
+export default function MyPageScreen({ navigation }) {
   const healthInfo: HealthInfo = useHealthInfoState()
+
+  //메소드를 호출하면서 파라미터로 클릭된 아이템의 index번호 받아야함.
+  const clickItem = (data: any) => {
+    navigation.navigate('Diagnosis', data)
+    // 클릭한 아이템의 name값??
+    //alert(data)
+  }
 
   return (
     <ScrollView style={style.container}>
@@ -41,11 +48,11 @@ export default function MyPageScreen() {
               key={index}
               style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}
               onPress={() => {
-                clickItem(data.disease)
+                clickItem(data)
               }}>
               <View style={{ flexDirection: 'column' }}>
                 <Text style={[style.itemMessage, { marginBottom: 6 }]}>질병</Text>
-                <Text style={style.itemName}>{data.disease[0]}</Text>
+                <Text style={style.itemName}>{data.disease[0].name}</Text>
               </View>
               <View style={{ width: 300, marginVertical: 14, height: 2, backgroundColor: '#f2f2f2f2' }} />
               <View style={{ flexDirection: 'column' }}>
@@ -60,12 +67,6 @@ export default function MyPageScreen() {
       <View style={{ height: 60 }} />
     </ScrollView>
   )
-}
-
-//메소드를 호출하면서 파라미터로 클릭된 아이템의 index번호 받아야함.
-const clickItem = (data: any) => {
-  // 클릭한 아이템의 name값??
-  alert(data)
 }
 
 const style = StyleSheet.create({

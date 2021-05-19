@@ -50,10 +50,16 @@ export interface Department {
   hospital: Hospital[]
 }
 
+export interface Disease {
+  name: string
+  description: string
+}
+
 /** 초진 데이터 타입 */
 export interface Diagnosis {
   date: Date
-  disease: string[]
+  symptom: string[]
+  disease: Disease[]
   department: Department[]
 }
 
@@ -67,7 +73,19 @@ const initialState: HealthInfo = {
   diagnosis: [
     {
       date: new Date(),
-      disease: ['위장염', '식중독', '장폐색'],
+      symptom: ['배 아픔', '열이 남', '설사'],
+      disease: [
+        {
+          name: '위장염',
+          description:
+            '급성 위장염은 위장관의 염증 상태를 말하여 위나 소장에 염증이 발생한 것을 말합니다. 바이러스의 감염, 박테리아나 기생충의 감염에 의해 발생하게 됩니다.',
+        },
+        { name: '식중독', description: '식중독은 상한 음식을 먹었을 때 주로 발생하며' },
+        {
+          name: '장폐색',
+          description: '장폐색은 블라블라 때문에 발생하며 뭐뭐를 증상으로 가진다. 즉시 조치해야 한다.',
+        },
+      ],
       department: [
         {
           name: '내과',
@@ -81,29 +99,59 @@ const initialState: HealthInfo = {
     },
     {
       date: new Date('2020-12-17T03:24:00'),
-      disease: ['폐렴', '무슨병'],
+      symptom: ['기침', '열이 남', '토함', '기침', '열이 남', '토함'],
+      disease: [
+        {
+          name: '위장염',
+          description:
+            '급성 위장염은 위장관의 염증 상태를 말하여 위나 소장에 염증이 발생한 것을 말합니다. 바이러스의 감염, 박테리아나 기생충의 감염에 의해 발생하게 됩니다.',
+        },
+        { name: '식중독', description: '식중독은 상한 음식을 먹었을 때 주로 발생하며' },
+        {
+          name: '장폐색',
+          description: '장폐색은 블라블라 때문에 발생하며 뭐뭐를 증상으로 가진다. 즉시 조치해야 한다.',
+        },
+      ],
       department: [
         {
-          name: '이비인후과',
-          hospital: [{ name: '양천병원', location: { latitude: 233, longitude: 155 }, remainingSickbed: 3 }],
+          name: '내과',
+          hospital: [{ name: '홍익병원', location: { latitude: 233, longitude: 155 }, remainingSickbed: 3 }],
         },
         {
-          name: '기관지외과',
-          hospital: [{ name: '광진병원', location: { latitude: 200, longitude: 151 }, remainingSickbed: 13 }],
+          name: '가정의학과',
+          hospital: [{ name: '세브란스병원', location: { latitude: 200, longitude: 151 }, remainingSickbed: 13 }],
         },
       ],
     },
     {
       date: new Date('2020-12-17T03:24:00'),
-      disease: ['폐렴', '무슨병'],
+      symptom: ['배 아픔', '열이 남', '설사'],
+      disease: [
+        {
+          name: '위장염',
+          description:
+            '급성 위장염은 위장관의 염증 상태를 말하여 위나 소장에 염증이 발생한 것을 말합니다. 바이러스의 감염, 박테리아나 기생충의 감염에 의해 발생하게 됩니다.',
+        },
+        { name: '식중독', description: '식중독은 상한 음식을 먹었을 때 주로 발생하며' },
+        {
+          name: '장폐색',
+          description: '장폐색은 블라블라 때문에 발생하며 뭐뭐를 증상으로 가진다. 즉시 조치해야 한다.',
+        },
+      ],
       department: [
         {
           name: '이비인후과',
-          hospital: [{ name: '양천병원', location: { latitude: 233, longitude: 155 }, remainingSickbed: 3 }],
+          hospital: [
+            { name: '양천병원', location: { latitude: 233, longitude: 155 }, remainingSickbed: 3 },
+            { name: '양천병원', location: { latitude: 244, longitude: 155 }, remainingSickbed: 3 },
+          ],
         },
         {
           name: '기관지외과',
-          hospital: [{ name: '광진병원', location: { latitude: 200, longitude: 151 }, remainingSickbed: 13 }],
+          hospital: [
+            { name: '광진병원', location: { latitude: 200, longitude: 151 }, remainingSickbed: 13 },
+            { name: '양천병원', location: { latitude: 233, longitude: 155 }, remainingSickbed: 3 },
+          ],
         },
       ],
     },
