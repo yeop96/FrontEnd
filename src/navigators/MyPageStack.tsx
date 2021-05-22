@@ -7,7 +7,11 @@ const MyPageStack = createStackNavigator()
 export default function MyPageStackNavigator() {
   return (
     <MyPageStack.Navigator>
-      <MyPageStack.Screen name="MyPageScreen" component={MyPageScreen} options={{ title: ' ' }} />
+      <MyPageStack.Screen
+        name="MyPageScreen"
+        component={MyPageScreen}
+        options={{ headerShown: false, headerTitle: '' }}
+      />
       <MyPageStack.Screen name="Diagnosis" component={Diagnosis} options={{ title: '초진 내역' }} />
     </MyPageStack.Navigator>
   )
