@@ -24,10 +24,13 @@ export default function FamilyHistory(props: { scrollToNext: (infoKey: any, valu
         width: screenWidth,
         height: screenHeight,
         paddingTop: 29,
+        alignItems: 'center',
         paddingHorizontal: 34,
       }}>
-      <MaterialCommunityIcons name="account-multiple" color={mainColor} size={48} />
-      <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'가족력이 있으신가요?'}</Text>
+      <View style={{ alignItems: 'flex-start', width: 320 }}>
+        <MaterialCommunityIcons name="account-multiple" color={mainColor} size={48} />
+        <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'가족력이 있으신가요?'}</Text>
+      </View>
       {familyHistory.map((item) => (
         <DefaultButton infoKey={'familyHistory'} scrollToNext={props.scrollToNext} label={item} key={item} />
       ))}

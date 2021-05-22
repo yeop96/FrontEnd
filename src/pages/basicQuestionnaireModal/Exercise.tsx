@@ -25,9 +25,12 @@ export default function Exercise(props: { scrollToNext: (infoKey: any, value: an
         height: screenHeight,
         paddingTop: 29,
         paddingHorizontal: 34,
+        alignItems: 'center',
       }}>
-      <MaterialCommunityIcons name="weight-lifter" color={mainColor} size={48} />
-      <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'운동을 하시나요?'}</Text>
+      <View style={{ alignItems: 'flex-start', width: 320 }}>
+        <MaterialCommunityIcons name="weight-lifter" color={mainColor} size={48} />
+        <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'운동을 하시나요?'}</Text>
+      </View>
       {exercise.map((item) => (
         <DefaultButton infoKey={'exercise'} scrollToNext={props.scrollToNext} label={item} key={item} />
       ))}

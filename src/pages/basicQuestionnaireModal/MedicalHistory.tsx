@@ -15,10 +15,13 @@ export default function MedicalHistory(props: { scrollToNext: (infoKey: any, val
         width: screenWidth,
         height: screenHeight,
         paddingTop: 29,
+        alignItems: 'center',
         paddingHorizontal: 34,
       }}>
-      <MaterialCommunityIcons name="hospital-box-outline" color={mainColor} size={48} />
-      <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'이전에 진단받은 병이\n있으신가요?'}</Text>
+      <View style={{ alignItems: 'flex-start', width: 320 }}>
+        <MaterialCommunityIcons name="hospital-box-outline" color={mainColor} size={48} />
+        <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'이전에 진단받은 병이\n있으신가요?'}</Text>
+      </View>
       {medicalHistory.map((item) => (
         <DefaultButton infoKey={'medicalHistory'} scrollToNext={props.scrollToNext} label={item} key={item} />
       ))}
