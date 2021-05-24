@@ -1,46 +1,82 @@
 import * as React from 'react'
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import { format } from 'date-fns'
+import { mainColor } from 'common'
+
+const questionnairekey = ['흡연', '음주', '운동', '병력', '가족력']
+
+/** 가짜 기초문진내역, 필요시 인덱스별로 가져다 쓰도록 함 */
+const tempBasicQuestionnaire = [
+  ['피우지 않습니다', '일주일에 두 번', '일주일에 한 번', '당뇨병', '암'],
+  ['일주일에 한 갑', '마시지 않습니다.', '일주일에 두 번', '없음', '암'],
+  ['일주일에 두 갑', '마시지 않습니다.', '일주일에 두 번', '없음', '암'],
+]
 
 /** 초진내역 */
 export default function Diagnosis({ navigation, route }) {
+  console.log(route.params.diagnosis)
+  let isAllLightDiease = true
+  route.params.diagnosis.disease.map((diseaseInfo) => {
+    if (diseaseInfo.level !== '경증 질환') {
+      isAllLightDiease = false
+    }
+  })
+
+  console.log(isAllLightDiease)
   return (
     <ScrollView style={style.container}>
-      <Text style={style.textTitle}>{format(route.params.date, 'yyyy.MM.dd')}</Text>
-      <Text style={style.textSemiTitle}>예상 질병</Text>
-      {route.params.disease.map((diseaseInfo, index) => (
+      <Text style={style.textTitle}>{format(route.params.diagnosis.date, 'yyyy.MM.dd')}</Text>
+      <Text style={style.textSemiTitle}>예상 질병(증상 유사도 분석)</Text>
+      {isAllLightDiease && (
+        <Text style={{ fontSize: 14, color: mainColor, width: 320, marginBottom: 12 }}>
+          {'Tip! 경증 질병일 확률이 높습니다.\n지역응급의료기관 방문을 추천합니다.'}
+        </Text>
+      )}
+      {route.params.diagnosis.disease.map((diseaseInfo, index) => (
         <View style={[style.item, { marginBottom: 10 }]} key={index}>
           <View style={{ flexDirection: 'column', marginLeft: 4 }}>
-            <Text style={[style.itemName, { marginBottom: 6 }]}>{diseaseInfo.name}</Text>
+            <Text style={[style.itemName, { marginBottom: 6 }]}>{diseaseInfo.name + ' - ' + diseaseInfo.level}</Text>
             <Text style={style.itemMessage}>{diseaseInfo.description}</Text>
           </View>
         </View>
       ))}
       <Text style={[style.textSemiTitle, { marginTop: 18 }]}>증상</Text>
       <View style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}>
-        {route.params.symptom.map((symptomInfo, index) => {
+        {route.params.diagnosis.symptom.map((symptomInfo, index) => {
           return (
             <View key={index}>
               <Text style={style.itemName}>{symptomInfo}</Text>
-              {index < route.params.symptom.length - 1 && (
+              {index < route.params.diagnosis.symptom.length - 1 && (
                 <View style={{ width: 320, marginVertical: 14, height: 2, backgroundColor: '#f2f2f2f2' }} />
               )}
             </View>
           )
         })}
       </View>
-      <Text style={[style.textSemiTitle, { marginTop: 18 }]}>예상 진료과</Text>
-      {route.params.department.map((departmentInfo, index) => (
-        <TouchableOpacity style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}>
-          <Text style={[style.itemMessage, { marginBottom: 8 }]}>진료과명</Text>
-          <Text style={style.itemName}>{departmentInfo.name}</Text>
-          <View style={{ width: 320, marginVertical: 14, height: 2, backgroundColor: '#f2f2f2f2' }} />
-          <Text style={[style.itemMessage, { marginBottom: 8 }]}>추천 병원</Text>
-          <Text style={style.itemName}>
-            {departmentInfo.hospital[0].name + ' 외 ' + (departmentInfo.hospital.length - 1) + '개'}
-          </Text>
-        </TouchableOpacity>
-      ))}
+      <Text style={[style.textSemiTitle, { marginTop: 18 }]}>기초문진</Text>
+      <View style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}>
+        {tempBasicQuestionnaire[route.params.index].map((questionnaire, index) => {
+          return (
+            <View key={index}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 320 }}>
+                <Text style={[style.itemName, { color: '#666666' }]}>{questionnairekey[index]}</Text>
+                <Text style={[style.itemName, { color: '#333333' }]}>{questionnaire}</Text>
+              </View>
+              {index < 4 && (
+                <View style={{ width: 320, marginVertical: 14, height: 2, backgroundColor: '#f2f2f2f2' }} />
+              )}
+            </View>
+          )
+        })}
+      </View>
+      <View style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 320 }}>
+          <Text style={[style.itemName, { color: '#666666' }]}>복용중인 약</Text>
+          <Text style={[style.itemName, { color: '#333333' }]}>{route.params.diagnosis.medicationBeingTaken}</Text>
+        </View>
+      </View>
+
+      {/* 병원 지도 넣을 자리*/}
       {/** 바텀텝에 가려지지 않도록 띄워주는 빈 공간 */}
       <View style={{ height: 60 }} />
     </ScrollView>
