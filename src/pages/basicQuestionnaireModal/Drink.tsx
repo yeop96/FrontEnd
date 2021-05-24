@@ -25,9 +25,12 @@ export default function Drink(props: { scrollToNext: (infoKey: any, value: any) 
         height: screenHeight,
         paddingTop: 29,
         paddingHorizontal: 34,
+        alignItems: 'center',
       }}>
-      <MaterialCommunityIcons name="glass-cocktail" color={mainColor} size={48} />
-      <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'술을 드시나요?'}</Text>
+      <View style={{ alignItems: 'flex-start', width: 320 }}>
+        <MaterialCommunityIcons name="glass-cocktail" color={mainColor} size={48} />
+        <Text style={{ marginTop: 14, marginBottom: 64, fontSize: 30 }}>{'술을 드시나요?'}</Text>
+      </View>
       {drink.map((item) => (
         <DefaultButton infoKey={'drink'} scrollToNext={props.scrollToNext} label={item} key={item} />
       ))}

@@ -15,10 +15,8 @@ export default function MyPageScreen({ navigation }) {
   const healthInfo: HealthInfo = useHealthInfoState()
 
   //메소드를 호출하면서 파라미터로 클릭된 아이템의 index번호 받아야함.
-  const clickItem = (data: any) => {
-    navigation.navigate('Diagnosis', data)
-    // 클릭한 아이템의 name값??
-    //alert(data)
+  const clickItem = (params: { data: any; index: number }) => {
+    navigation.navigate('Diagnosis', { diagnosis: params.data, index: params.index })
   }
 
   return (
@@ -26,11 +24,7 @@ export default function MyPageScreen({ navigation }) {
       <Text style={style.textTitle}>진료 기록</Text>
       <Text style={style.textSemiTitle}>기초 문진</Text>
       {
-        <TouchableOpacity
-          style={[style.item, { marginBottom: 26 }]}
-          onPress={() => {
-            clickItem(0)
-          }}>
+        <TouchableOpacity style={[style.item, { marginBottom: 26 }]} onPress={() => {}}>
           <MaterialCommunityIcons name="file-document-edit" color={'#81C4A7'} size={48} />
           <View style={{ flexDirection: 'column', marginLeft: 14 }}>
             <Text style={[style.itemName, { marginBottom: 6 }]}>{basicQuestionnaire.name}</Text>
@@ -41,14 +35,13 @@ export default function MyPageScreen({ navigation }) {
       <Text style={style.textSemiTitle}>초진 내역</Text>
       {healthInfo.diagnosis.map((data, index) => {
         return (
-          // onPress에서 요소를 제어 할 수 없어서 화살표 함수를 이용함.
           <View>
             <Text style={style.textDateTitle}>{format(data.date, 'yyyy-MM-dd')}</Text>
             <TouchableOpacity
               key={index}
               style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}
               onPress={() => {
-                clickItem(data)
+                clickItem({ data: data, index: index })
               }}>
               <View style={{ flexDirection: 'column' }}>
                 <Text style={[style.itemMessage, { marginBottom: 6 }]}>질병</Text>
@@ -56,8 +49,8 @@ export default function MyPageScreen({ navigation }) {
               </View>
               <View style={{ width: 300, marginVertical: 14, height: 2, backgroundColor: '#f2f2f2f2' }} />
               <View style={{ flexDirection: 'column' }}>
-                <Text style={[style.itemMessage, { marginBottom: 6 }]}>진료과</Text>
-                <Text style={style.itemName}>{data.department[0].name}</Text>
+                <Text style={[style.itemMessage, { marginBottom: 6 }]}>추천병원</Text>
+                <Text style={style.itemName}>{'데이터 형식 정해지면 수정'}</Text>
               </View>
             </TouchableOpacity>
           </View>

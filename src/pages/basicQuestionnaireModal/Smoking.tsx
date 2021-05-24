@@ -23,9 +23,12 @@ export default function Smoking(props: { scrollToNext: (infoKey: any, value: any
         height: screenHeight,
         paddingTop: 29,
         paddingHorizontal: 34,
+        alignItems: 'center',
       }}>
-      <MaterialCommunityIcons name="smoking" color={mainColor} size={48} />
-      <Text style={{ marginTop: 17, marginBottom: 64, fontSize: 30 }}>{'흡연을 하시나요?'}</Text>
+      <View style={{ alignItems: 'flex-start', width: 320 }}>
+        <MaterialCommunityIcons name="smoking" color={mainColor} size={48} />
+        <Text style={{ marginTop: 17, marginBottom: 64, fontSize: 30 }}>{'흡연을 하시나요?'}</Text>
+      </View>
       {smoking.map((item) => (
         <DefaultButton infoKey={'smoking'} scrollToNext={props.scrollToNext} label={item} key={item} />
       ))}
