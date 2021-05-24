@@ -26,11 +26,7 @@ export default function MyPageScreen({ navigation }) {
       <Text style={style.textTitle}>진료 기록</Text>
       <Text style={style.textSemiTitle}>기초 문진</Text>
       {
-        <TouchableOpacity
-          style={[style.item, { marginBottom: 26 }]}
-          onPress={() => {
-            clickItem(0)
-          }}>
+        <TouchableOpacity style={[style.item, { marginBottom: 26 }]} onPress={() => {}}>
           <MaterialCommunityIcons name="file-document-edit" color={'#81C4A7'} size={48} />
           <View style={{ flexDirection: 'column', marginLeft: 14 }}>
             <Text style={[style.itemName, { marginBottom: 6 }]}>{basicQuestionnaire.name}</Text>
