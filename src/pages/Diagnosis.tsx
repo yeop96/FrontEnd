@@ -14,7 +14,6 @@ const tempBasicQuestionnaire = [
 
 /** 초진내역 */
 export default function Diagnosis({ navigation, route }) {
-  console.log(route.params.diagnosis)
   let isAllLightDiease = true
   route.params.diagnosis.disease.map((diseaseInfo) => {
     if (diseaseInfo.level !== '경증 질환') {
@@ -22,7 +21,6 @@ export default function Diagnosis({ navigation, route }) {
     }
   })
 
-  console.log(isAllLightDiease)
   return (
     <ScrollView style={style.container}>
       <Text style={style.textTitle}>{format(route.params.diagnosis.date, 'yyyy.MM.dd')}</Text>
