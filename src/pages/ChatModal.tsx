@@ -11,6 +11,7 @@ const { height, width } = Dimensions.get('window')
 /** 진료 챗봇 모달 페이지 */
 export default function ChatModal() {
   //채팅 내역 useState
+  const [sessions, setSessions] = useState(Math.round(Math.random() * 1000000))
   const [messages, setMessages] = useState([])
 
   //STT에 필요한 useState
@@ -150,6 +151,7 @@ export default function ChatModal() {
     console.log('newMessage: ', newMessage)
 
     const dataToSend = {
+      session: sessions,
       text: text,
     }
     // formBody 서버 url 뒤에 붙일 text
@@ -199,7 +201,7 @@ export default function ChatModal() {
 
       {/* 채팅틀 */}
       <GiftedChat
-        placeholder={'음성인식을 시작하세요...'}
+        placeholder={'진료 시작하세요...'}
         locale="ko"
         dateFormat="YYYY년 M월 DD일"
         //alwaysShowSend={true} //send 버튼 계속 보이고 싶으면 사용
@@ -207,15 +209,16 @@ export default function ChatModal() {
         text={text}
         onInputTextChanged={setText}
         textInputProps={{ keyboardAppearance: 'dark', autoCorrect: false }}
+        textInputStyle={{}}
         onSend={(newMessage) => handleSend(newMessage)}
-        //messagesContainerStyle={{ backgroundColor: 'indigo' }} // 백그라운 색 바꾸고 싶으면 사용
+        messagesContainerStyle={{ backgroundColor: 'white' }} // 백그라운 색 바꾸고 싶으면 사용
         user={{
           _id: 1,
         }}
       />
 
       {/* 음성 인식 버튼 */}
-      <View style={{ marginTop: 10, marginBottom: 50 }}>
+      <View style={{ marginTop: 10, marginBottom: 40 }}>
         <Button onPress={_onRecordVoice} title={buttonLabel} />
       </View>
     </View>
