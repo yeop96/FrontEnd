@@ -2,22 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Description of why you require the use of the speech recognition</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Description of why you require the use of the microphone</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>서비스 동작을 위해 위치 정보가 필요합니다.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>서비스 동작을 위해 위치 정보가 필요합니다.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>서비스 동작을 위해 위치 정보가 필요합니다.</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>FrontEnd</string>
+	<string>메디포유</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -34,6 +22,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -47,6 +37,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>서비스 동작을 위해 위치 정보가 필요합니다.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>서비스 동작을 위해 위치 정보가 필요합니다.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>서비스 동작을 위해 위치 정보가 필요합니다.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Description of why you require the use of the microphone</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Description of why you require the use of the speech recognition</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

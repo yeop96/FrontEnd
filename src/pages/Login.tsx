@@ -86,8 +86,8 @@ export default function LoginScreen({ navigation }) {
             <View style={{ backgroundColor: '#FFFFFF', borderRadius: 40 }}>
               <View style={{ alignItems: 'center' }}>
                 <Text style={styles.titleFTextStyle}>
-                  응급한
-                  <Text style={styles.titleETextStyle}> 목소리</Text>
+                  메디
+                  <Text style={styles.titleETextStyle}>포유</Text>
                 </Text>
               </View>
               <View style={styles.SectionStyle}>
