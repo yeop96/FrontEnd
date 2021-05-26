@@ -4,6 +4,7 @@ import Voice from 'react-native-voice'
 import { GiftedChat } from 'react-native-gifted-chat'
 import Tts from 'react-native-tts'
 import { ChatDiagnosis } from 'pages'
+import Loader from '../components/Loader'
 
 //상대 사이즈 위해 사용
 const { height, width } = Dimensions.get('window')
@@ -13,6 +14,8 @@ export default function ChatModal() {
   //채팅 내역 useState
   const [sessions, setSessions] = useState(Math.round(Math.random() * 1000000))
   const [messages, setMessages] = useState([])
+  const [checkupResult, setCheckupResult] = useState<boolean>(false) //검진 결과
+  const [loading, setLoading] = useState(false) //로딩
 
   //STT에 필요한 useState
   const [isRecord, setIsRecord] = useState<boolean>(false)
@@ -96,7 +99,7 @@ export default function ChatModal() {
     setMessages([
       {
         _id: 1,
-        text: '음성 진료를 시작합니다. 아픈데 있음?',
+        text: '음성 진료를 시작합니다. 아픈데 있으신가요?',
         createdAt: new Date(),
         user: {
           _id: 2,
@@ -172,6 +175,10 @@ export default function ChatModal() {
         console.log(responseJson.resText) //돌아오는 대답
         onSend(bot(responseJson.resText)) //돌아오는 대답 메시지 띄우기
         Tts.speak(responseJson.resText) //TTS 읽어주기
+        if (responseJson.resText === '잠시만 기다려주세요.') {
+          setLoading(true)
+          setTimeout(() => setCheckupResult(true), 4000)
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -182,10 +189,19 @@ export default function ChatModal() {
     setText('')
   }
 
+  if (checkupResult) {
+    Tts.speak('검진 결과를 안내 합니다.') //TTS 읽어주기
+    return (
+      <View style={{ flex: 1 }}>
+        {/* 진단 결과 화면 */}
+        <ChatDiagnosis diagnosis={tempData} />
+      </View>
+    )
+  }
+
   return (
     <View style={{ flex: 1 }}>
-      {/* 진단 결과 화면 */}
-      {/* <ChatDiagnosis diagnosis={tempData} /> */}
+      <Loader loading={loading} />
       {/* 위에 제목 */}
       <View
         style={{
