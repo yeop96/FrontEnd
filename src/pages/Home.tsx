@@ -8,6 +8,7 @@ import { useHealthInfoState } from 'context'
 import { BasicQuestionnaire } from 'pages'
 import { mainColor } from 'common'
 import Loader from '../components/Loader'
+import { useHealthInfoSetState } from 'context'
 
 interface ILocation {
   latitude: number
@@ -30,6 +31,7 @@ function GuideModal(props: { visible: boolean; setVisible: () => void }) {
 }
 
 export default function HomeScreen() {
+  const setHealthInfoState = useHealthInfoSetState()
   const [location, setLocation] = useState<ILocation | undefined>({ latitude: 37.538712, longitude: 127.082366 })
   const HealthInfo = useHealthInfoState()
   const [modalVisible, setModalVisible] = useState<boolean>(false)
@@ -84,6 +86,31 @@ export default function HomeScreen() {
       })
       .catch((error) => {
         setLoading(false) //로딩화면 꺼지기
+        console.error(error)
+      })
+  }, [])
+
+  // 서버에서 초진내역 가져오기
+  useEffect(() => {
+    const dataToSend = {
+      radius: '7000',
+      user_lng: location.longitude * 1,
+      user_lat: location.latitude * 1,
+    }
+    let formBody = []
+    for (const key in dataToSend) {
+      const encodedKey = encodeURIComponent(key)
+      const encodedValue = encodeURIComponent(dataToSend[key])
+      formBody.push(encodedKey + '=' + encodedValue)
+    }
+    formBody = formBody.join('&')
+
+    fetch('http://52.78.126.183:3000/caps/my-page-array?' + formBody, {})
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setHealthInfoState((prev) => ({ ...prev, diagnosis: responseJson.result }))
+      })
+      .catch((error) => {
         console.error(error)
       })
   }, [])
