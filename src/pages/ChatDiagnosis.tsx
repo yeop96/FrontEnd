@@ -115,14 +115,18 @@ export default function ChatDiagnosis(props: { diagnosis: any }) {
               latitudeDelta: 0.0522,
               longitudeDelta: 0.0021,
             }}>
-            <Marker
-              coordinate={{
-                latitude: location.latitude,
-                longitude: location.longitude,
-              }}
-              title="현재위치"
-              description="내위치"
-            />
+            {/* {props.diagnosis.hospital.map((data, index) => {
+              return (
+                <Marker
+                  coordinate={{
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                  }}
+                  title={data.dutyAddr._text}
+                  description="내위치"
+                />
+              )
+            })} */}
           </MapView>
         )}
       </View>

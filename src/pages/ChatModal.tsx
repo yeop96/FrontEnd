@@ -5,12 +5,22 @@ import { GiftedChat } from 'react-native-gifted-chat'
 import Tts from 'react-native-tts'
 import { ChatDiagnosis } from 'pages'
 import Loader from '../components/Loader'
+import { useHealthInfoSetState } from 'context'
+import Geolocation from 'react-native-geolocation-service'
 
 //상대 사이즈 위해 사용
 const { height, width } = Dimensions.get('window')
+interface ILocation {
+  latitude: number
+  longitude: number
+}
 
 /** 진료 챗봇 모달 페이지 */
 export default function ChatModal() {
+  const setHealthInfoState = useHealthInfoSetState()
+  const [diagnosisData, setDiagnosisData] = useState({})
+  const [location, setLocation] = useState<ILocation | undefined>({ latitude: 37.538712, longitude: 127.082366 })
+
   //채팅 내역 useState
   const [sessions, setSessions] = useState(Math.round(Math.random() * 1000000))
   const [messages, setMessages] = useState([])
@@ -43,6 +53,48 @@ export default function ChatModal() {
     hospital: 'something',
     medicationBeingTaken: '없음',
   }
+  useEffect(() => {
+    // 현재 위치 담아두기
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords
+        setLocation({
+          latitude,
+          longitude,
+        })
+      },
+      (error) => {
+        console.log(error.code, error.message)
+      },
+      // 타임아웃 거는거
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+    )
+  }, [])
+
+  // 서버에서 검진 결과 가져오기
+  useEffect(() => {
+    const dataToSend = {
+      radius: '7000',
+      user_lng: location.longitude * 1,
+      user_lat: location.latitude * 1,
+    }
+    let formBody = []
+    for (const key in dataToSend) {
+      const encodedKey = encodeURIComponent(key)
+      const encodedValue = encodeURIComponent(dataToSend[key])
+      formBody.push(encodedKey + '=' + encodedValue)
+    }
+    formBody = formBody.join('&')
+
+    fetch('http://52.78.126.183:3000/caps/my-page?' + formBody, {})
+      .then((response) => response.json())
+      .then((responseJson) => {
+        setDiagnosisData(responseJson.result)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [])
 
   //음성 인식 시작 끝 함수
   const _onSpeechStart = () => {
@@ -177,7 +229,7 @@ export default function ChatModal() {
         Tts.speak(responseJson.resText) //TTS 읽어주기
         if (responseJson.resText === '잠시만 기다려주세요.') {
           setLoading(true)
-          setTimeout(() => setCheckupResult(true), 4000)
+          setTimeout(() => setCheckupResult(true), 3500)
         }
       })
       .catch((error) => {

@@ -7,3 +7,4 @@ export { default as RegisterScreen } from './Register'
 export { BasicQuestionnaire } from './basicQuestionnaireModal'
 export { default as Diagnosis } from './Diagnosis'
 export { default as ChatDiagnosis } from './ChatDiagnosis'
+console.disableYellowBox = true
