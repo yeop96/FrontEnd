@@ -93,6 +93,7 @@ export default function HomeScreen() {
   // 서버에서 초진내역 가져오기
   useEffect(() => {
     const dataToSend = {
+      scenario: '1', //시나리오 변경시 여기
       radius: '7000',
       user_lng: location.longitude * 1,
       user_lat: location.latitude * 1,

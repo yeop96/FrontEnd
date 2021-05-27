@@ -32,27 +32,6 @@ export default function ChatModal() {
   const [text, setText] = useState<string>('')
   const buttonLabel = isRecord ? '음성 멈추기' : '음성 인식 시작'
 
-  /** 임시 데이터, 아래와 같은 형식의 데이터 서버에서 받아 넘겨주면 됨 */
-  const tempData = {
-    date: '2021.05.21',
-    symptom: ['배 아픔', '열이 남', '설사'],
-    disease: [
-      {
-        name: '위장염1',
-        description:
-          '급성 위장염은 위장관의 염증 상태를 말하여 위나 소장에 염증이 발생한 것을 말합니다. 바이러스의 감염, 박테리아나 기생충의 감염에 의해 발생하게 됩니다.',
-        level: '경증 질환',
-      },
-      { name: '식중독', description: '식중독은 상한 음식을 먹었을 때 주로 발생하며', level: '경증 질환' },
-      {
-        name: '장폐색',
-        description: '장폐색은 블라블라 때문에 발생하며 뭐뭐를 증상으로 가진다. 즉시 조치해야 한다.',
-        level: '중증 질환',
-      },
-    ],
-    hospital: 'something',
-    medicationBeingTaken: '없음',
-  }
   useEffect(() => {
     // 현재 위치 담아두기
     Geolocation.getCurrentPosition(
@@ -74,6 +53,7 @@ export default function ChatModal() {
   // 서버에서 검진 결과 가져오기
   useEffect(() => {
     const dataToSend = {
+      scenario: '1', //시나리오 변경시 여기
       radius: '7000',
       user_lng: location.longitude * 1,
       user_lat: location.latitude * 1,
@@ -246,7 +226,7 @@ export default function ChatModal() {
     return (
       <View style={{ flex: 1 }}>
         {/* 진단 결과 화면 */}
-        <ChatDiagnosis diagnosis={tempData} />
+        <ChatDiagnosis diagnosis={diagnosisData} />
       </View>
     )
   }
