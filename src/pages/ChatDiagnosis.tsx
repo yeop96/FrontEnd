@@ -15,6 +15,7 @@ interface ILocation {
 
 /** 가짜 기초문진내역, 필요시 인덱스별로 가져다 쓰도록 함 */
 const tempBasicQuestionnaire = ['피우지 않습니다', '일주일에 두 번', '일주일에 한 번', '당뇨병', '암']
+let today = new Date()
 
 /** 초진내역 */
 export default function ChatDiagnosis(props: { diagnosis: any }) {
@@ -48,7 +49,7 @@ export default function ChatDiagnosis(props: { diagnosis: any }) {
 
   return (
     <ScrollView style={style.container}>
-      <Text style={style.textTitle}>{props.diagnosis.date}</Text>
+      <Text style={style.textTitle}>{today.toLocaleDateString()}</Text>
       <Text style={style.textSemiTitle}>예상 질병(증상 유사도 분석)</Text>
       {isAllLightDiease && (
         <Text style={{ fontSize: 14, color: mainColor, width: 320, marginBottom: 12 }}>
@@ -114,18 +115,76 @@ export default function ChatDiagnosis(props: { diagnosis: any }) {
               latitudeDelta: 0.0522,
               longitudeDelta: 0.0021,
             }}>
-            {/* {props.diagnosis.hospital.map((data, index) => {
-              return (
-                <Marker
-                  coordinate={{
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                  }}
-                  title={data.dutyAddr._text}
-                  description="내위치"
-                />
-              )
-            })} */}
+            {props.diagnosis.hospital.map((data, index) => {
+              let emgCongestion = ''
+              if (data.emgCongestion._text === 'Y') {
+                emgCongestion = '응급실 인원 : 혼잡'
+              } else {
+                emgCongestion = '응급실 인원 : 원활'
+              }
+              if (data.dutyEmclsName._text === '권역응급의료센터' && isAllLightDiease === false) {
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{ latitude: data.wgs84Lat._text * 1, longitude: data.wgs84Lon._text * 1 }}
+                    title={data.dutyName._text}
+                    description={
+                      data.dutyEmclsName._text +
+                      ' (심각한 중증 진료 추천)' +
+                      '\n' +
+                      data.dutyAddr._text +
+                      '\n' +
+                      emgCongestion +
+                      '\n' +
+                      '번호 : ' +
+                      data.dutyTel1._text
+                    }
+                    pinColor="red"
+                  />
+                )
+              } else if (data.dutyEmclsName._text === '지역응급의료센터' && isAllLightDiease === false) {
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{ latitude: data.wgs84Lat._text * 1, longitude: data.wgs84Lon._text * 1 }}
+                    title={data.dutyName._text}
+                    description={
+                      data.dutyEmclsName._text +
+                      ' (지역내 중증 진료 추천)' +
+                      '\n' +
+                      data.dutyAddr._text +
+                      '\n' +
+                      emgCongestion +
+                      '\n' +
+                      '번호 : ' +
+                      data.dutyTel1._text
+                    }
+                    pinColor="red"
+                  />
+                )
+              } else {
+                //지역응급의료기관
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{ latitude: data.wgs84Lat._text * 1, longitude: data.wgs84Lon._text * 1 }}
+                    title={data.dutyName._text}
+                    description={
+                      data.dutyEmclsName._text +
+                      ' (경증 진료 추천)' +
+                      '\n' +
+                      data.dutyAddr._text +
+                      '\n' +
+                      emgCongestion +
+                      '\n' +
+                      '번호 : ' +
+                      data.dutyTel1._text
+                    }
+                    pinColor="green"
+                  />
+                )
+              }
+            })}
           </MapView>
         )}
       </View>
