@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { format } from 'date-fns'
 import { HealthInfo, useHealthInfoState } from 'context'
 
 /** 기초 문진 데이터 */
@@ -36,7 +35,7 @@ export default function MyPageScreen({ navigation }) {
       {healthInfo.diagnosis.map((data, index) => {
         return (
           <View>
-            <Text style={style.textDateTitle}>{format(data.date, 'yyyy-MM-dd')}</Text>
+            <Text style={style.textDateTitle}>{data.date}</Text>
             <TouchableOpacity
               key={index}
               style={[style.item, { flexDirection: 'column', alignItems: 'flex-start' }]}
