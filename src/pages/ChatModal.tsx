@@ -20,6 +20,7 @@ export default function ChatModal() {
   const setHealthInfoState = useHealthInfoSetState()
   const [diagnosisData, setDiagnosisData] = useState({})
   const [location, setLocation] = useState<ILocation | undefined>({ latitude: 37.538712, longitude: 127.082366 })
+  const [userScenario, setUserscenario] = useState('1')
 
   //채팅 내역 useState
   const [sessions, setSessions] = useState(Math.round(Math.random() * 1000000))
@@ -50,10 +51,39 @@ export default function ChatModal() {
     )
   }, [])
 
-  // 서버에서 검진 결과 가져오기
-  useEffect(() => {
+  // 일단 보류 코드 (처음부터 보내야 하는지에 대한 문제)
+  // // 서버에서 검진 결과 가져오기
+  // useEffect(() => {
+  //   const dataToSend = {
+  //     scenario: userScenario, //시나리오 변경시 여기
+  //     radius: '7000',
+  //     user_lng: location.longitude * 1,
+  //     user_lat: location.latitude * 1,
+  //   }
+  //   let formBody = []
+  //   for (const key in dataToSend) {
+  //     const encodedKey = encodeURIComponent(key)
+  //     const encodedValue = encodeURIComponent(dataToSend[key])
+  //     formBody.push(encodedKey + '=' + encodedValue)
+  //   }
+  //   formBody = formBody.join('&')
+
+  //   fetch('http://52.78.126.183:3000/caps/my-page?' + formBody, {})
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       console.log(formBody)
+  //       console.log(responseJson)
+  //       setDiagnosisData(responseJson.result)
+  //     })
+  //     .catch((error) => {
+  //       console.error(error)
+  //     })
+  // }, [])
+
+  // 서버에서 검진 결과 보내기 함수
+  function resultDiagnosisSend() {
     const dataToSend = {
-      scenario: '1', //시나리오 변경시 여기
+      scenario: userScenario, //시나리오 변경시 여기
       radius: '7000',
       user_lng: location.longitude * 1,
       user_lat: location.latitude * 1,
@@ -69,12 +99,14 @@ export default function ChatModal() {
     fetch('http://52.78.126.183:3000/caps/my-page?' + formBody, {})
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log(formBody)
+        console.log(responseJson)
         setDiagnosisData(responseJson.result)
       })
       .catch((error) => {
         console.error(error)
       })
-  }, [])
+  }
 
   //음성 인식 시작 끝 함수
   const _onSpeechStart = () => {
@@ -207,8 +239,18 @@ export default function ChatModal() {
         console.log(responseJson.resText) //돌아오는 대답
         onSend(bot(responseJson.resText)) //돌아오는 대답 메시지 띄우기
         Tts.speak(responseJson.resText) //TTS 읽어주기
+        if (responseJson.resText === '발진의 모양이 어떤가요?') {
+          setUserscenario('2')
+          console.log('ddd?!')
+          console.log(userScenario)
+        }
+        if (responseJson.resText === '구토를 몇 번 했나요?') {
+          setUserscenario('1')
+        }
+        console.log(userScenario)
         if (responseJson.resText === '잠시만 기다려주세요.') {
           setLoading(true)
+          resultDiagnosisSend()
           setTimeout(() => setCheckupResult(true), 3500)
         }
       })
