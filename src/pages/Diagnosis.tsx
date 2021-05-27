@@ -1,8 +1,17 @@
-import * as React from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native'
 import { mainColor } from 'common'
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import { Marker } from 'react-native-maps'
+import Geolocation from 'react-native-geolocation-service'
 
 const questionnairekey = ['흡연', '음주', '운동', '병력', '가족력']
+const { height, width } = Dimensions.get('window')
+
+interface ILocation {
+  latitude: number
+  longitude: number
+}
 
 /** 가짜 기초문진내역, 필요시 인덱스별로 가져다 쓰도록 함 */
 const tempBasicQuestionnaire = [
@@ -13,6 +22,27 @@ const tempBasicQuestionnaire = [
 
 /** 초진내역 */
 export default function Diagnosis({ route }) {
+  const [location, setLocation] = useState<ILocation | undefined>({ latitude: 37.538712, longitude: 127.082366 })
+
+  //위치 구하기
+  useEffect(() => {
+    // 현재 위치 담아두기
+    Geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords
+        setLocation({
+          latitude,
+          longitude,
+        })
+      },
+      (error) => {
+        console.log(error.code, error.message)
+      },
+      // 타임아웃 거는거
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+    )
+  }, [])
+
   let isAllLightDiease = true
   route.params.diagnosis.disease.map((diseaseInfo) => {
     if (diseaseInfo.level !== '경증 질환') {
@@ -73,8 +103,95 @@ export default function Diagnosis({ route }) {
         </View>
       </View>
 
-      {/* 병원 지도 넣을 자리*/}
-      {/** 바텀텝에 가려지지 않도록 띄워주는 빈 공간 */}
+      {/* 병원 지도 */}
+      <Text style={[style.textSemiTitle, { marginTop: 18 }]}>병원 안내</Text>
+      <View style={{ alignItems: 'center' }}>
+        {location && (
+          <MapView
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            provider={PROVIDER_GOOGLE}
+            style={style.map}
+            region={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+              latitudeDelta: 0.0522,
+              longitudeDelta: 0.0021,
+            }}>
+            {route.params.diagnosis.hospital.map((data, index) => {
+              let emgCongestion = ''
+              if (data.emgCongestion._text === 'Y') {
+                emgCongestion = '응급실 인원 : 혼잡'
+              } else {
+                emgCongestion = '응급실 인원 : 원활'
+              }
+              if (data.dutyEmclsName._text === '권역응급의료센터' && isAllLightDiease === false) {
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{ latitude: data.wgs84Lat._text * 1, longitude: data.wgs84Lon._text * 1 }}
+                    title={data.dutyName._text}
+                    description={
+                      data.dutyEmclsName._text +
+                      ' (심각한 중증 진료 추천)' +
+                      '\n' +
+                      data.dutyAddr._text +
+                      '\n' +
+                      emgCongestion +
+                      '\n' +
+                      '번호 : ' +
+                      data.dutyTel1._text
+                    }
+                    pinColor="red"
+                  />
+                )
+              } else if (data.dutyEmclsName._text === '지역응급의료센터' && isAllLightDiease === false) {
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{ latitude: data.wgs84Lat._text * 1, longitude: data.wgs84Lon._text * 1 }}
+                    title={data.dutyName._text}
+                    description={
+                      data.dutyEmclsName._text +
+                      ' (지역내 중증 진료 추천)' +
+                      '\n' +
+                      data.dutyAddr._text +
+                      '\n' +
+                      emgCongestion +
+                      '\n' +
+                      '번호 : ' +
+                      data.dutyTel1._text
+                    }
+                    pinColor="red"
+                  />
+                )
+              } else {
+                //지역응급의료기관
+                return (
+                  <Marker
+                    key={index}
+                    coordinate={{ latitude: data.wgs84Lat._text * 1, longitude: data.wgs84Lon._text * 1 }}
+                    title={data.dutyName._text}
+                    description={
+                      data.dutyEmclsName._text +
+                      ' (경증 진료 추천)' +
+                      '\n' +
+                      data.dutyAddr._text +
+                      '\n' +
+                      emgCongestion +
+                      '\n' +
+                      '번호 : ' +
+                      data.dutyTel1._text
+                    }
+                    pinColor="green"
+                  />
+                )
+              }
+            })}
+          </MapView>
+        )}
+      </View>
+
       <View style={{ height: 60 }} />
     </ScrollView>
   )
@@ -107,5 +224,10 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     fontSize: 24,
+  },
+  map: {
+    height: width - 32,
+    width: width - 32,
+    borderRadius: 10,
   },
 })
