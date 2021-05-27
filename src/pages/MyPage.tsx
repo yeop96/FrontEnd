@@ -43,13 +43,13 @@ export default function MyPageScreen({ navigation }) {
                 clickItem({ data: data, index: index })
               }}>
               <View style={{ flexDirection: 'column' }}>
-                <Text style={[style.itemMessage, { marginBottom: 6 }]}>질병</Text>
+                <Text style={[style.itemMessage, { marginBottom: 6 }]}>예상 질병</Text>
                 <Text style={style.itemName}>{data.disease[0].name}</Text>
               </View>
               <View style={{ width: 300, marginVertical: 14, height: 2, backgroundColor: '#f2f2f2f2' }} />
               <View style={{ flexDirection: 'column' }}>
-                <Text style={[style.itemMessage, { marginBottom: 6 }]}>추천병원</Text>
-                <Text style={style.itemName}>{'데이터 형식 정해지면 수정'}</Text>
+                <Text style={[style.itemMessage, { marginBottom: 6 }]}>분류</Text>
+                <Text style={style.itemName}>{data.disease[0].level}</Text>
               </View>
             </TouchableOpacity>
           </View>
