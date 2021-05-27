@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import { format } from 'date-fns'
 import { mainColor } from 'common'
 
 const questionnairekey = ['흡연', '음주', '운동', '병력', '가족력']
@@ -13,7 +12,7 @@ const tempBasicQuestionnaire = [
 ]
 
 /** 초진내역 */
-export default function Diagnosis({ navigation, route }) {
+export default function Diagnosis({ route }) {
   let isAllLightDiease = true
   route.params.diagnosis.disease.map((diseaseInfo) => {
     if (diseaseInfo.level !== '경증 질환') {
@@ -23,7 +22,7 @@ export default function Diagnosis({ navigation, route }) {
 
   return (
     <ScrollView style={style.container}>
-      <Text style={style.textTitle}>{format(route.params.diagnosis.date, 'yyyy.MM.dd')}</Text>
+      <Text style={style.textTitle}>{route.params.diagnosis.date}</Text>
       <Text style={style.textSemiTitle}>예상 질병(증상 유사도 분석)</Text>
       {isAllLightDiease && (
         <Text style={{ fontSize: 14, color: mainColor, width: 320, marginBottom: 12 }}>

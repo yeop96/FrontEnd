@@ -39,7 +39,7 @@ export interface Disease {
 
 /** 초진 데이터 타입 */
 export interface Diagnosis {
-  date: Date
+  date: string
   symptom: string[]
   disease: Disease[]
   /** 병원 정보 협의 후에 수정 */
@@ -56,7 +56,7 @@ const initialState: HealthInfo = {
   basicQuestionnaire: null,
   diagnosis: [
     {
-      date: new Date(),
+      date: '2021.05.21',
       symptom: ['배 아픔', '열이 남', '설사'],
       disease: [
         {
@@ -76,7 +76,7 @@ const initialState: HealthInfo = {
       medicationBeingTaken: '없음',
     },
     {
-      date: new Date('2020-12-17T03:24:00'),
+      date: '2021.05.02',
       symptom: ['기침', '열이 남', '토함', '기침', '열이 남', '토함'],
       disease: [
         {
@@ -96,7 +96,7 @@ const initialState: HealthInfo = {
       medicationBeingTaken: '감기약',
     },
     {
-      date: new Date('2020-12-17T03:24:00'),
+      date: '2021.04.22',
       symptom: ['배 아픔', '열이 남', '설사'],
       disease: [
         {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native'
-import { format } from 'date-fns'
 import { mainColor } from 'common'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { Marker } from 'react-native-maps'
@@ -49,7 +48,7 @@ export default function ChatDiagnosis(props: { diagnosis: any }) {
 
   return (
     <ScrollView style={style.container}>
-      <Text style={style.textTitle}>{format(props.diagnosis.date, 'yyyy.MM.dd')}</Text>
+      <Text style={style.textTitle}>{props.diagnosis.date}</Text>
       <Text style={style.textSemiTitle}>예상 질병(증상 유사도 분석)</Text>
       {isAllLightDiease && (
         <Text style={{ fontSize: 14, color: mainColor, width: 320, marginBottom: 12 }}>

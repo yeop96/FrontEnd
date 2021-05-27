@@ -34,7 +34,7 @@ export default function ChatModal() {
 
   /** 임시 데이터, 아래와 같은 형식의 데이터 서버에서 받아 넘겨주면 됨 */
   const tempData = {
-    date: new Date(),
+    date: '2021.05.21',
     symptom: ['배 아픔', '열이 남', '설사'],
     disease: [
       {
