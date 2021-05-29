@@ -1,4 +1,4 @@
-import { View, Text, Button, Dimensions } from 'react-native'
+import { View, Text, Button, Dimensions, Linking } from 'react-native'
 import React, { useState, useEffect, useCallback } from 'react'
 import Voice from 'react-native-voice'
 import { GiftedChat } from 'react-native-gifted-chat'
@@ -216,6 +216,20 @@ export default function ChatModal() {
     setMessages(GiftedChat.append(messages, user))
     console.log('messages: ', messages)
     console.log('newMessage: ', newMessage)
+    if (
+      newMessage[0].text === '신고해줘' ||
+      newMessage[0].text === '살려줘' ||
+      newMessage[0].text === '도와줘' ||
+      newMessage[0].text === '119 신고해줘' ||
+      newMessage[0].text === '119 전화해줘' ||
+      newMessage[0].text === '119신고해줘' ||
+      newMessage[0].text === '119전화해줘'
+    ) {
+      Linking.openURL(`tel:119`)
+      onSend(bot('119 전화를 띄웁니다.')) //돌아오는 대답 메시지 띄우기
+      Tts.speak('119 전화를 띄웁니다.') //TTS 읽어주기
+      return
+    }
 
     const dataToSend = {
       session: sessions,
