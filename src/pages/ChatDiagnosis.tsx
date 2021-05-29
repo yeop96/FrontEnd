@@ -162,7 +162,7 @@ export default function ChatDiagnosis(props: { diagnosis: any }) {
                     pinColor="red"
                   />
                 )
-              } else {
+              } else if (data.dutyEmclsName._text === '지역응급의료기관') {
                 //지역응급의료기관
                 return (
                   <Marker
