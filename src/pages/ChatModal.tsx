@@ -217,17 +217,18 @@ export default function ChatModal() {
     console.log('messages: ', messages)
     console.log('newMessage: ', newMessage)
     if (
-      newMessage[0].text === '신고해줘' ||
+      newMessage[0].text === '신고 해줘' ||
       newMessage[0].text === '살려줘' ||
       newMessage[0].text === '도와줘' ||
-      newMessage[0].text === '119 신고해줘' ||
-      newMessage[0].text === '119 전화해줘' ||
-      newMessage[0].text === '119신고해줘' ||
-      newMessage[0].text === '119전화해줘'
+      newMessage[0].text === '119 신고 해줘' ||
+      newMessage[0].text === '119 전화해줘'
     ) {
       Linking.openURL(`tel:119`)
       onSend(bot('119 전화를 띄웁니다.')) //돌아오는 대답 메시지 띄우기
-      Tts.speak('119 전화를 띄웁니다.') //TTS 읽어주기
+      Tts.speak('일일구 전화를 띄웁니다.') //TTS 읽어주기
+      //보내면 음성 인식 중단 비워주기
+      _onRecordVoice()
+      setText('')
       return
     }
 
