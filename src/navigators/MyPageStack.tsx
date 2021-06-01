@@ -6,7 +6,7 @@ const MyPageStack = createStackNavigator()
 
 export default function MyPageStackNavigator() {
   return (
-    <MyPageStack.Navigator>
+    <MyPageStack.Navigator screenOptions={{ headerBackTitleVisible: false }}>
       <MyPageStack.Screen
         name="MyPageScreen"
         component={MyPageScreen}

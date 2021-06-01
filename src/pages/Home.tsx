@@ -128,7 +128,7 @@ export default function HomeScreen() {
         modalVisible={modalVisible}
         setModalVisible={() => {
           setModalVisible(false)
-          setInfoModalVisible(true)
+          setTimeout(() => setInfoModalVisible(true), 0)
         }}
       />
       <GuideModal visible={infoModalVisible} setVisible={() => setInfoModalVisible(false)} />
