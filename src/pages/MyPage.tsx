@@ -5,7 +5,7 @@ import { HealthInfo, useHealthInfoState } from 'context'
 
 /** 기초 문진 데이터 */
 const basicQuestionnaire = {
-  name: '김성엽',
+  name: '김소웨',
   message: '만 24세 남성 B형\n서울시 광진구 자양 3동\n010-1234-1234',
 }
 
