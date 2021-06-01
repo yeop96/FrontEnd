@@ -5,7 +5,7 @@ import { HealthInfo, useHealthInfoState } from 'context'
 
 /** 기초 문진 데이터 */
 const basicQuestionnaire = {
-  name: '김소웨',
+  name: '김대엽',
   message: '만 24세 남성 B형\n서울시 광진구 자양 3동\n010-1234-1234',
 }
 
@@ -55,6 +55,12 @@ export default function MyPageScreen({ navigation }) {
           </View>
         )
       })}
+      <Text style={{ marginTop: 10, marginLeft: 5, color: '#999999' }}>
+        ※ 본 서비스는 질환 치료 목적의 서비스가 아닙니다.
+      </Text>
+      <Text style={{ marginTop: 10, marginLeft: 5, color: '#999999' }}>
+        ※ 질환 발생유무와 위험을 확인해주지 않으며, 의료행위가 포함되어 있지 않습니다.
+      </Text>
       {/** 바텀텝에 가려지지 않도록 띄워주는 빈 공간 */}
       <View style={{ height: 60 }} />
     </ScrollView>

@@ -163,7 +163,7 @@ export default function ChatModal() {
     setMessages([
       {
         _id: 1,
-        text: '음성 진료를 시작합니다. 아픈데 있으신가요?',
+        text: '음성 진료를 시작합니다.\n어떤 증상이 있으신가요?',
         createdAt: new Date(),
         user: {
           _id: 2,
