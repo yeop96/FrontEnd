@@ -1,4 +1,24 @@
 # 응급실 앱
+응급상황 판단 및 대응 어플리케이션
 
-
-ㅁㅁㅁㅁㅁㅁ
+![image](https://user-images.githubusercontent.com/48886490/160283639-80e6e37a-ea95-48ac-864f-882074080add.png)
+![image](https://user-images.githubusercontent.com/48886490/160283663-04204814-181f-4cda-82c4-0b0dcdf25195.png)
+![image](https://user-images.githubusercontent.com/48886490/160283673-58535937-49b0-4b2a-8e99-a9441b1c949b.png)
+![image](https://user-images.githubusercontent.com/48886490/160283679-be4c4aca-8837-43f0-885b-c05d47945a7d.png)
+![image](https://user-images.githubusercontent.com/48886490/160283685-6f96ae60-9165-4b38-a325-29fc85ee4ab0.png)
+![image](https://user-images.githubusercontent.com/48886490/160283695-4b669437-a92a-49a8-a4b4-55ddd199690f.png)
+![image](https://user-images.githubusercontent.com/48886490/160283704-704edb40-2068-4659-81e0-774381fb450c.png)
+![image](https://user-images.githubusercontent.com/48886490/160283711-8e950bf6-ee66-4263-ab8c-0543eb90da21.png)
+![image](https://user-images.githubusercontent.com/48886490/160283719-a91cb849-581a-480d-8e80-b49c30dde250.png)
+![image](https://user-images.githubusercontent.com/48886490/160283729-08f4b134-02df-478e-8427-3f4375e10ae7.png)
+![image](https://user-images.githubusercontent.com/48886490/160283730-85241c15-8351-437f-8a80-be6ee51186e1.png)
+![image](https://user-images.githubusercontent.com/48886490/160283754-8f276950-0f80-4928-96d3-c06d17e67feb.png)
+![image](https://user-images.githubusercontent.com/48886490/160283766-0babd92a-af74-4715-bd82-8c8bd6b096d1.png)
+![image](https://user-images.githubusercontent.com/48886490/160283777-8fb5fdde-8cba-4826-aa89-0a95ae275ae6.png)
+![image](https://user-images.githubusercontent.com/48886490/160283782-61867144-5a55-4ba8-957a-fed5ec6ce8ea.png)
+![image](https://user-images.githubusercontent.com/48886490/160283789-23a68779-7870-4454-89b0-f714bc2abb90.png)
+![image](https://user-images.githubusercontent.com/48886490/160283803-38e6ac6e-5ef7-4aac-bced-2104f9bede77.png)
+![image](https://user-images.githubusercontent.com/48886490/160283813-4ec05aa1-0993-4978-ab87-8bf502867b56.png)
+![image](https://user-images.githubusercontent.com/48886490/160283824-e9400ca9-ce35-4ea7-8800-9111de799477.png)
+![image](https://user-images.githubusercontent.com/48886490/160283835-f3ba055a-39f9-4a92-92fd-fc669eb40e03.png)
+![image](https://user-images.githubusercontent.com/48886490/160283850-9ac4392b-0a29-4e1f-a713-102e56d5c762.png)
